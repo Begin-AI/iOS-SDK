@@ -38,16 +38,3 @@ xcodebuild -create-xcframework \
 ```
 
 6. now you have the Genbu.xcframework package (folder)
-
-
-**CLIENT (DEVELOPER) SIDE ACTIONS TO IMPORT THE FRAMEWORK**
-
-1. Create a new project from Xcode
-2. Go to project folder from finder. Copy Genbu.xcframework folder to the project folder
-
-*At Xcode:*
-1. right click to Frameworks folder -> add Files to project -> Genbu.xcframework
-2. click to project file -> select Target
-3. Frameworks, Libraries and Embedded Content -> press + button and select Genbu.xcframework
-4. clean and build your project
-5. at your Viewcontroller, "import Genbu" and start using the SDK
