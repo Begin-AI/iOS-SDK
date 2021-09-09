@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="GenbuDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ceG-q9-u90">
+                                <rect key="frame" x="15" y="59" width="384" height="40"/>
+                                <color key="backgroundColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="ygd-iU-vyO"/>
+                                </constraints>
+                                <color key="tintColor" red="0.95228832959999998" green="0.95576483010000002" blue="0.95943266149999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Show User Info"/>
+                                <connections>
+                                    <action selector="showUserInfo" destination="BYZ-38-t0r" eventType="touchUpInside" id="8Ov-fc-xyv"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yv8-Lw-ont">
+                                <rect key="frame" x="15" y="119" width="384" height="40"/>
+                                <color key="backgroundColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Y4K-NF-owO"/>
+                                </constraints>
+                                <color key="tintColor" red="0.95228832959999998" green="0.95576483010000002" blue="0.95943266149999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Change User Name"/>
+                                <connections>
+                                    <action selector="changeUserName" destination="BYZ-38-t0r" eventType="touchUpInside" id="nbA-Jd-rBp"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lbK-1z-E5C">
+                                <rect key="frame" x="15" y="179" width="384" height="40"/>
+                                <color key="backgroundColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="WIS-pt-2bb"/>
+                                </constraints>
+                                <color key="tintColor" red="0.95228832959999998" green="0.95576483010000002" blue="0.95943266149999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Fetch Instructions From API"/>
+                                <connections>
+                                    <action selector="fetchInstructions" destination="BYZ-38-t0r" eventType="touchUpInside" id="3Pp-Qq-w0Q"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0uN-8q-sVn">
+                                <rect key="frame" x="15" y="239" width="384" height="40"/>
+                                <color key="backgroundColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="pdm-cM-Wdn"/>
+                                </constraints>
+                                <color key="tintColor" red="0.95228832959999998" green="0.95576483010000002" blue="0.95943266149999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Inference"/>
+                                <connections>
+                                    <action selector="inference" destination="BYZ-38-t0r" eventType="touchUpInside" id="Q0U-Pd-cbu"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ceG-q9-u90" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="8dM-AH-fTN"/>
+                            <constraint firstItem="0uN-8q-sVn" firstAttribute="top" secondItem="lbK-1z-E5C" secondAttribute="bottom" constant="20" id="B8F-qN-72n"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="lbK-1z-E5C" secondAttribute="trailing" constant="15" id="Dns-H0-8Ae"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="yv8-Lw-ont" secondAttribute="trailing" constant="15" id="EyK-aa-ZOT"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="0uN-8q-sVn" secondAttribute="trailing" constant="15" id="KIq-Nh-Spp"/>
+                            <constraint firstItem="lbK-1z-E5C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="OeC-hU-2Ym"/>
+                            <constraint firstItem="ceG-q9-u90" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="15" id="Yba-G2-Ogj"/>
+                            <constraint firstItem="yv8-Lw-ont" firstAttribute="top" secondItem="ceG-q9-u90" secondAttribute="bottom" constant="20" id="agg-U8-Mbc"/>
+                            <constraint firstItem="0uN-8q-sVn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="lHW-KP-PsW"/>
+                            <constraint firstItem="lbK-1z-E5C" firstAttribute="top" secondItem="yv8-Lw-ont" secondAttribute="bottom" constant="20" id="ofy-HT-xnm"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ceG-q9-u90" secondAttribute="trailing" constant="15" id="ush-Ty-fbj"/>
+                            <constraint firstItem="yv8-Lw-ont" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="x9y-aD-HCi"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="141" y="139"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
