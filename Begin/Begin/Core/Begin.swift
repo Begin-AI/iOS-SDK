@@ -6,146 +6,201 @@ import Foundation
 
 class Begin {
     
-    var baseUrl = ""
-    var features : [String : Any] = [:]
+    var embeddingObject: [String: Any] = [:]
+    var userFeatures : [String : Any] = [:]
     var embeddedList : [Double] = []
+    var objectList : [ObjectModel] = []
+    var interactionList : [ObjectModel] = []
     let ERR_NUMBER = 0.00011
     let EMPTY_NUMBER = 0.00012
     let CONTINUE_NUMBER = -1337.37
-    var chainResult = 0.00013
     
-    init (url : String) {
-        self.baseUrl = url
+    var userId : String = ""
+    var appId = ""
+    var licenseKey = ""
+    
+    init (appId : String , licenseKey : String) {
+        self.appId = appId
+        self.licenseKey = licenseKey
     }
     
-    func updateFeatures (key : String, value : Any){
-        features[key] = value
+    func updateUserFeatures (key : String, value : Any){
+        userFeatures[key] = value
+    }
+    
+    func contains (objectName: String, list : [ObjectModel]) -> Int {
+        for i in 0..<list.count {
+            if list[i].objectName == objectName {
+                return i
+            }
+        }
+        return -100
+    }
+    
+    func updateObjectFeatures (objectType : String, objectId : String, key : String, value : Any){
+        var index = contains(objectName: objectType, list: objectList)
+        if index == -100 {
+            let model = ObjectModel.init(objectName: objectType)
+            objectList.append(model)
+            index = objectList.count - 1
+        }
+        let objectModel = objectList[index]
+        if objectModel.objectMap[objectId] != nil{
+            objectModel.objectMap[objectId]![key] = value
+        }
+        else {
+            var map = [String : Any]()
+            map[key] = value
+            objectModel.objectMap[objectId] = map
+        }
+    }
+    
+    func containsInteractions (id: String, list : [InteractionModel]) -> Int {
+        for i in 0..<list.count {
+            if list[i].id == id {
+                return i
+            }
+        }
+        return -100
+    }
+    
+    func updateInteractions (objectType : String, objectId : String, value : String){
+        var index = contains(objectName: objectType, list: interactionList)
+        if index == -100 {
+            let model = ObjectModel.init(objectName: objectType)
+            interactionList.append(model)
+            index = interactionList.count - 1
+        }
+        let objectModel = interactionList[index]
+        var interactionIndex = containsInteractions(id: objectId, list: objectModel.interactionList)
+        if interactionIndex == -100 {
+            let iModel = InteractionModel.init(id: objectId)
+            iModel.actions.insert(value)
+            objectModel.interactionList.append(iModel)
+        }
+        else {
+            let iModel = objectModel.interactionList[interactionIndex]
+            iModel.actions.insert(value)
+        }
     }
     
     func logUserInfo () -> String {
-        print("\(features as AnyObject)")
-        return "\(features as AnyObject)"
+        Logg.i(text: "\(userFeatures as AnyObject)")
+        return "\(userFeatures as AnyObject)"
     }
     
-    func processInstructions (instructions : [InstructionModel]){
+    public func setUserId (userId : String) {
+        self.userId = userId
+    }
+
+    func processInstructions (instructions : [String:[InstructionModel]]){
         embeddedList.removeAll()
-        let sortedList = instructions.sorted(by: {$0.higherOrder.unwrappedValue < $1.higherOrder.unwrappedValue})
-        for instr in sortedList {
-            decideInstruction(instruction: instr, isChain: false)
+        for inst in instructions {
+            if inst.key == "user" {
+                processUser(model: inst.value)
+            }
+            else if inst.key == "interactions" {
+                processInteractions(interactions: inst.value)
+            }
+            else{
+                processObject(model: inst.value)
+            }
         }
-        print("embedded: \(embeddedList)")
-        let embeddingModel = EmbeddingModel.init(embedding: embeddedList, version_number: getIntPreference(key: FETCH_VERSION)!)
-        saveEmbeddingList(with: embeddingModel)
-        postInstructions(embeddingModel: embeddingModel)
+        var finalObject: [String: Any] = [:]
+        finalObject["embeddings"] = embeddingObject
+        finalObject["version_number"] = getIntPreference(key: FETCH_VERSION)
+        Logg.d(text: "embeddingObject: \(finalObject)")
+        postInstructions(finalObject: finalObject)
     }
     
-    func decideInstruction (instruction : InstructionModel, isChain : Bool) -> Double {
-        switch instruction.instruct.unwrappedValue {
-        case "Slice":
-            return sliceInstruction(instruction: instruction, isChain: isChain)
-        case "Length", "CountDigits", "StandardName":
-            return textInstruction(instruction: instruction, isChain: isChain)
-        case "Age", "CompareDates":
-            return dateInstruction(instruction: instruction, isChain: isChain)
-        case "DistanceFromField", "DistanceFromPoint":
-            return locationInstruction(instruction: instruction, isChain: isChain)
-        case "Sequence":
-            return sequenceInstruction(instruction: instruction, isChain: isChain)
-        case "":
-            chainInstruction(instruction: instruction)
-            return CONTINUE_NUMBER
-        default:
-            return CONTINUE_NUMBER
+    func processUser (model : [InstructionModel]){
+        let beginProcessor = BeginProcessor.init(features: userFeatures)
+        let userEmbedList = beginProcessor.processInstructions(instructions: model)
+        var innerobject: [String: Any] = [:]
+        innerobject[userId] = userEmbedList
+        embeddingObject["user"] = innerobject
+    }
+    
+    func processObject (model : [InstructionModel]){
+        for objectModel in objectList {
+            var innerobject: [String: Any] = [:]
+            for objectMap in objectModel.objectMap {
+                let objkey = objectMap.key
+                let object = objectMap.value
+                let beginProcessor = BeginProcessor.init(features: object)
+                let objectEmbeddingList = beginProcessor.processInstructions(instructions: model)
+                innerobject[objkey] = objectEmbeddingList
+            }
+            embeddingObject[objectModel.objectName] = innerobject
         }
     }
     
-    func textInstruction (instruction : InstructionModel ,isChain : Bool) -> Double {
-        let textInstr = TextInstruction.init(instruction: instruction)
-        let result = textInstr.execute(features: features)
-        if !isChain {
-            embeddedList.append(result)
-        }
-        return result
-    }
-    
-    func locationInstruction (instruction : InstructionModel, isChain : Bool) -> Double {
-        let locationInstr = LocationInstruction.init(instruction: instruction)
-        let result = locationInstr.execute(features: features)
-        if !isChain {
-            embeddedList.append(result)
-        }
-        return result
-    }
-    
-    func dateInstruction (instruction : InstructionModel, isChain : Bool) -> Double {
-        let dateInstr = DateInstruction.init(instruction: instruction)
-        let result = dateInstr.execute(features: features)
-        if !isChain {
-            embeddedList.append(result)
-        }
-        return result
-    }
-    
-    func sliceInstruction (instruction : InstructionModel, isChain : Bool) -> Double {
-        let sliceInstr = SliceInstruction.init(instruction: instruction)
-        let result = sliceInstr.execute(features: features)
-        if !isChain {
-            embeddedList.append(result)
-        }
-        return result
-    }
-    
-    func sequenceInstruction (instruction : InstructionModel, isChain : Bool) -> Double {
-        let sequenceInstr = SequenceInstruction.init(instruction: instruction)
-        let result = sequenceInstr.execute(features: features)
-        if !isChain {
-            embeddedList.append(result)
-        }
-        return result
-    }
-    
-    func chainInstruction (instruction : InstructionModel) {
-        if let chains = instruction.chains {
-            for list in chains {
-                let sortedList = list.sorted(by: {$0.order.unwrappedValue < $1.order.unwrappedValue})
-                for i in 0..<sortedList.count {
-                    var sentInstruction = sortedList[i]
-                    sentInstruction.fID = instruction.fID
-                    if i == 0 {
-                        chainResult = decideInstruction(instruction: sentInstruction, isChain: true)
-                        updateFeatures(key: "chainResponse", value: Int(chainResult))
+    func processInteractions (interactions : [InstructionModel]){
+        var outerObject: [String: Any] = [:]
+        var middleObject: [String: Any] = [:]
+        for istr in interactions {
+            var keyValueList = [InteractionModel]()
+            if let map = istr.params?.sequenceMap {
+                for param in map {
+                    let objKey = param.0
+                    let value = param.1
+                    let model = InteractionModel.init(id: objKey)
+                    if let val = Int("\(value)"){
+                        model.value = val
+                        keyValueList.append(model)
                     }
-                    else if i == sortedList.count-1 {
-                        sentInstruction.fID = "chainResponse"
-                        chainResult = decideInstruction(instruction: sentInstruction, isChain: false)
-                        features["chainResponse"] = nil
+                }
+                var index = contains(objectName: istr._with_object.unwrappedValue, list: interactionList)
+                if index != -100 {
+                    let objectModel = interactionList[index]
+                    var innerObject: [String: Any] = [:]
+                    for interactionModel in objectModel.interactionList {
+                        var max = -1
+                        for i in 0..<keyValueList.count {
+                            if interactionModel.actions.contains(keyValueList[i].id) {
+                                if keyValueList[i].value > max {
+                                    max = keyValueList[i].value
+                                }
+                            }
+                        }
+                        var productJson:[String: Any] = [:]
+                        productJson["sentiment"] = max
+                        if max > 4 {
+                            productJson["sent_bin"] = 2
+                            productJson["label"] = "POSITIVE"
+                        }
+                        else if max == 4 {
+                            productJson["sent_bin"] = 1
+                            productJson["label"] = "NEUTRAL"
+                        }
+                        else{
+                            productJson["sent_bin"] = 1
+                            productJson["label"] = "NEGATIVE"
+                        }
+                        innerObject[interactionModel.id] = productJson
                     }
-                    else {
-                        sentInstruction.fID = "chainResponse"
-                        chainResult = decideInstruction(instruction: sentInstruction, isChain: true)
-                        updateFeatures(key: "chainResponse", value: Int(chainResult))
-                    }
+                    middleObject[objectModel.objectName] = innerObject
                 }
             }
         }
+        outerObject[userId] = middleObject
+        embeddingObject["interactions"] = outerObject
     }
     
-    func postInstructions (embeddingModel : EmbeddingModel){
-        let beginApi = BeginAPI.init(url: baseUrl)
-        beginApi.sendInstructions(model: embeddingModel, success:  { [self] (response) in
-            print("response \(response)")
+    func postInstructions (finalObject: [String: Any]){
+        let beginApi = BeginAPI.init(appId: appId, licenseKey: licenseKey)
+        beginApi.sendInstructions(finalObject: finalObject, success:  { [self] (response) in
+            Logg.d(text: "response \(response)")
         }) { (message) in
-            print ("failed \(message)")
         }
     }
     
     func inference (){
-        let beginApi = BeginAPI.init(url: baseUrl)
+        let beginApi = BeginAPI.init(appId: appId, licenseKey: licenseKey)
         beginApi.inferenceEmbedding(array: embeddedList, success:  { [self] (response) in
             let inferenceResponse = response as! InferenceModel
-            print("Inferense Result: fake_prob \(inferenceResponse.fake_prob) - not_fake_prob \(inferenceResponse.not_fake_prob)")
+            Logg.i(text: "Inferense Result: fake_prob \(inferenceResponse.fake_prob) - not_fake_prob \(inferenceResponse.not_fake_prob)")
         }) { (message) in
-            print ("failed \(message)")
         }
     }
     

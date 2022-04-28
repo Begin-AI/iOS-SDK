@@ -11,7 +11,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="GenbuDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="BeginDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -47,9 +47,9 @@
                                     <constraint firstAttribute="height" constant="40" id="WIS-pt-2bb"/>
                                 </constraints>
                                 <color key="tintColor" red="0.95228832959999998" green="0.95576483010000002" blue="0.95943266149999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Fetch Instructions From API"/>
+                                <state key="normal" title="Learn From Data"/>
                                 <connections>
-                                    <action selector="fetchInstructions" destination="BYZ-38-t0r" eventType="touchUpInside" id="3Pp-Qq-w0Q"/>
+                                    <action selector="learnFromData" destination="BYZ-38-t0r" eventType="touchUpInside" id="kh0-t6-228"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0uN-8q-sVn">
@@ -59,9 +59,9 @@
                                     <constraint firstAttribute="height" constant="40" id="pdm-cM-Wdn"/>
                                 </constraints>
                                 <color key="tintColor" red="0.95228832959999998" green="0.95576483010000002" blue="0.95943266149999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Inference"/>
+                                <state key="normal" title="Predict Engagement"/>
                                 <connections>
-                                    <action selector="inference" destination="BYZ-38-t0r" eventType="touchUpInside" id="Q0U-Pd-cbu"/>
+                                    <action selector="predictEngagement" destination="BYZ-38-t0r" eventType="touchUpInside" id="VCL-Y2-qlh"/>
                                 </connections>
                             </button>
                         </subviews>

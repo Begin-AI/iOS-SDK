@@ -7,6 +7,7 @@ import Foundation
 let APP_ID = "begin_app_id"
 let SECRET_KEY = "begin_secret_key"
 let FETCH_VERSION = "begin_fetch_version"
+let INSTRUCTION_ID = "begin_instruction_id"
 let embeddingDiskAddress = "embeddingDiskAddress"
 
 func json(from object:Any) -> String? {
@@ -22,7 +23,7 @@ func retrieveEmbeddingList () -> EmbeddingModel {
         let responseModel = try Disk.retrieve(embeddingDiskAddress,from: .caches, as: EmbeddingModel.self)
         return responseModel
     } catch(let error) {
-        print(error.localizedDescription)
+        Logg.d(text: error.localizedDescription)
         return EmbeddingModel.init(embedding: [], version_number: 1)
     }
 }
@@ -30,8 +31,8 @@ func retrieveEmbeddingList () -> EmbeddingModel {
 func saveEmbeddingList(with model:EmbeddingModel){
     do {
         try Disk.save(model, to: .caches, as: embeddingDiskAddress)
-        print("Succes: Embedded wrote to Disk.")
+        Logg.d(text: "Succes: Embedded wrote to Disk.")
     } catch(let error){
-        print("Error: Embedded couldn't write to Disk. \(error.localizedDescription)")
+        Logg.d(text: "Error: Embedded couldn't write to Disk. \(error.localizedDescription)")
     }
 }

@@ -1,0 +1,11 @@
+framework module Begin {
+  umbrella header "Begin.h"
+
+  export *
+  module * { export * }
+}
+
+module Begin.Swift {
+    header "Begin-Swift.h"
+    requires objc
+}

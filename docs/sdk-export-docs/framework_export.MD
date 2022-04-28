@@ -2,16 +2,16 @@
 
 1. go to the project folder from terminal:
 
-2. cd "iOSWorkspace/Genbu/GenbuFramework/Genbu/" (write your own full path)
+2. cd "iOSWorkspace/Begin/BeginFramework/Begin/" (write your own full path)
 
 3. for generating iPhone Archive copy this to terminal:
 
 ```
 xcodebuild archive \
--scheme Genbu \
+-scheme Begin \
 -configuration Release \
 -destination 'generic/platform=iOS' \
--archivePath './build/Genbu.framework-iphoneos.xcarchive' \
+-archivePath './build/Begin.framework-iphoneos.xcarchive' \
 SKIP_INSTALL=NO \
 BUILD_LIBRARIES_FOR_DISTRIBUTION=YES
 ```
@@ -20,10 +20,10 @@ BUILD_LIBRARIES_FOR_DISTRIBUTION=YES
 
 ```
 xcodebuild archive \
--scheme Genbu \
+-scheme Begin \
 -configuration Release \
 -destination 'generic/platform=iOS Simulator' \
--archivePath './build/Genbu.framework-iphonesimulator.xcarchive' \
+-archivePath './build/Begin.framework-iphonesimulator.xcarchive' \
 SKIP_INSTALL=NO \
 BUILD_LIBRARIES_FOR_DISTRIBUTION=YES
 ```
@@ -32,9 +32,9 @@ BUILD_LIBRARIES_FOR_DISTRIBUTION=YES
 
 ```
 xcodebuild -create-xcframework \
--framework './build/Genbu.framework-iphonesimulator.xcarchive/Products/Library/Frameworks/Genbu.framework' \
--framework './build/Genbu.framework-iphoneos.xcarchive/Products/Library/Frameworks/Genbu.framework' \
--output './build/Genbu.xcframework'
+-framework './build/Begin.framework-iphonesimulator.xcarchive/Products/Library/Frameworks/Begin.framework' \
+-framework './build/Begin.framework-iphoneos.xcarchive/Products/Library/Frameworks/Begin.framework' \
+-output './build/Begin.xcframework'
 ```
 
-6. now you have the Genbu.xcframework package (folder)
+6. now you have the Begin.xcframework package (folder)

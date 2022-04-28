@@ -11,6 +11,7 @@ struct InstructionModel: Codable {
     let higherOrder: Int?
     let order: Int?
     let instruct: String?
+    let _with_object: String?
     let params: InstructionParams?
     let chains: [[InstructionModel]]?
 
@@ -22,6 +23,7 @@ struct InstructionModel: Codable {
         case instruct
         case params
         case chains = "_chains"
+        case _with_object
     }
 }
 
@@ -64,7 +66,8 @@ struct Result: Codable {
 struct ResultInstruction: Codable {
     let createdAt: String?
     let id: Int?
-    let instructions: [InstructionModel]
+//    let instructions: [Instructions]
+    var instructions: [[String:[InstructionModel]]]
     let schema: Int?
 
     enum CodingKeys: String, CodingKey {

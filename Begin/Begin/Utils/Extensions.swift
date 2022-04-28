@@ -36,4 +36,7 @@ extension String {
         return String(unicodeScalars
             .flatMap { pattern ~= $0 ? Character($0) : nil })
     }
+    var isNumeric : Bool {
+        return Double(self) != nil
+    }
 }

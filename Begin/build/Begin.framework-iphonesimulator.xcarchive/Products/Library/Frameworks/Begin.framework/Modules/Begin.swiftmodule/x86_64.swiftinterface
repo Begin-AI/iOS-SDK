@@ -1,0 +1,480 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.3.2 (swiftlang-1200.0.45 clang-1200.0.32.28)
+// swift-module-flags: -target x86_64-apple-ios14.4-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name Begin
+@_exported import Begin
+import CoreLocation
+import Foundation
+import Swift
+import UIKit
+extension Disk {
+  public static func save(_ value: [Foundation.Data], to directory: Begin.Disk.Directory, as path: Swift.String) throws
+  public static func append(_ value: Foundation.Data, to path: Swift.String, in directory: Begin.Disk.Directory) throws
+  public static func append(_ value: [Foundation.Data], to path: Swift.String, in directory: Begin.Disk.Directory) throws
+  public static func retrieve(_ path: Swift.String, from directory: Begin.Disk.Directory, as type: [Foundation.Data].Type) throws -> [Foundation.Data]
+}
+extension Disk {
+  public enum ErrorCode : Swift.Int {
+    case noFileFound
+    case serialization
+    case deserialization
+    case invalidFileName
+    case couldNotAccessTemporaryDirectory
+    case couldNotAccessUserDomainMask
+    case couldNotAccessSharedContainer
+    public typealias RawValue = Swift.Int
+    public init?(rawValue: Swift.Int)
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  public static let errorDomain: Swift.String
+}
+extension Disk {
+  public static func save(_ value: Foundation.Data, to directory: Begin.Disk.Directory, as path: Swift.String) throws
+  public static func retrieve(_ path: Swift.String, from directory: Begin.Disk.Directory, as type: Foundation.Data.Type) throws -> Foundation.Data
+}
+public enum SwiftyJSONError : Swift.Int, Swift.Error {
+  case unsupportedType
+  case indexOutOfBounds
+  case elementTooDeep
+  case wrongType
+  case notExist
+  case invalidJSON
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension SwiftyJSONError : Foundation.CustomNSError {
+  public static var errorDomain: Swift.String {
+    get
+  }
+  public var errorCode: Swift.Int {
+    get
+  }
+  public var errorUserInfo: [Swift.String : Any] {
+    get
+  }
+}
+public enum Type : Swift.Int {
+  case number
+  case string
+  case bool
+  case array
+  case dictionary
+  case null
+  case unknown
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct JSON {
+  public init(data: Foundation.Data, options opt: Foundation.JSONSerialization.ReadingOptions = []) throws
+  public init(_ object: Any)
+  public init(parseJSON jsonString: Swift.String)
+  public mutating func merge(with other: Begin.JSON) throws
+  public func merged(with other: Begin.JSON) throws -> Begin.JSON
+  public var type: Begin.`Type` {
+    get
+  }
+  public var error: Begin.SwiftyJSONError? {
+    get
+  }
+  public var object: Any {
+    get
+    set
+  }
+  @available(*, unavailable, renamed: "null")
+  public static var nullJSON: Begin.JSON {
+    get
+  }
+  public static var null: Begin.JSON {
+    get
+  }
+}
+public enum Index<T> : Swift.Comparable {
+  case array(Swift.Int)
+  case dictionary(Swift.DictionaryIndex<Swift.String, T>)
+  case null
+  public static func == (lhs: Begin.Index<T>, rhs: Begin.Index<T>) -> Swift.Bool
+  public static func < (lhs: Begin.Index<T>, rhs: Begin.Index<T>) -> Swift.Bool
+}
+public typealias JSONIndex = Begin.Index<Begin.JSON>
+public typealias JSONRawIndex = Begin.Index<Any>
+extension JSON : Swift.Collection {
+  public typealias Index = Begin.JSONRawIndex
+  public var startIndex: Begin.JSON.Index {
+    get
+  }
+  public var endIndex: Begin.JSON.Index {
+    get
+  }
+  public func index(after i: Begin.JSON.Index) -> Begin.JSON.Index
+  public subscript(position: Begin.JSON.Index) -> (Swift.String, Begin.JSON) {
+    get
+  }
+  public typealias Element = (Swift.String, Begin.JSON)
+  public typealias Iterator = Swift.IndexingIterator<Begin.JSON>
+  public typealias SubSequence = Swift.Slice<Begin.JSON>
+  public typealias Indices = Swift.DefaultIndices<Begin.JSON>
+}
+public enum JSONKey {
+  case index(Swift.Int)
+  case key(Swift.String)
+}
+public protocol JSONSubscriptType {
+  var jsonKey: Begin.JSONKey { get }
+}
+extension Int : Begin.JSONSubscriptType {
+  public var jsonKey: Begin.JSONKey {
+    get
+  }
+}
+extension String : Begin.JSONSubscriptType {
+  public var jsonKey: Begin.JSONKey {
+    get
+  }
+}
+extension JSON {
+  public subscript(path: [Begin.JSONSubscriptType]) -> Begin.JSON {
+    get
+    set
+  }
+  public subscript(path: Begin.JSONSubscriptType...) -> Begin.JSON {
+    get
+    set
+  }
+}
+extension JSON : Swift.ExpressibleByStringLiteral {
+  public init(stringLiteral value: Swift.StringLiteralType)
+  public init(extendedGraphemeClusterLiteral value: Swift.StringLiteralType)
+  public init(unicodeScalarLiteral value: Swift.StringLiteralType)
+  public typealias StringLiteralType = Swift.StringLiteralType
+  public typealias ExtendedGraphemeClusterLiteralType = Swift.StringLiteralType
+  public typealias UnicodeScalarLiteralType = Swift.StringLiteralType
+}
+extension JSON : Swift.ExpressibleByIntegerLiteral {
+  public init(integerLiteral value: Swift.IntegerLiteralType)
+  public typealias IntegerLiteralType = Swift.IntegerLiteralType
+}
+extension JSON : Swift.ExpressibleByBooleanLiteral {
+  public init(booleanLiteral value: Swift.BooleanLiteralType)
+  public typealias BooleanLiteralType = Swift.BooleanLiteralType
+}
+extension JSON : Swift.ExpressibleByFloatLiteral {
+  public init(floatLiteral value: Swift.FloatLiteralType)
+  public typealias FloatLiteralType = Swift.FloatLiteralType
+}
+extension JSON : Swift.ExpressibleByDictionaryLiteral {
+  public init(dictionaryLiteral elements: (Swift.String, Any)...)
+  public typealias Key = Swift.String
+  public typealias Value = Any
+}
+extension JSON : Swift.ExpressibleByArrayLiteral {
+  public init(arrayLiteral elements: Any...)
+  public typealias ArrayLiteralElement = Any
+}
+extension JSON : Swift.RawRepresentable {
+  public init?(rawValue: Any)
+  public var rawValue: Any {
+    get
+  }
+  public func rawData(options opt: Foundation.JSONSerialization.WritingOptions = JSONSerialization.WritingOptions(rawValue: 0)) throws -> Foundation.Data
+  public func rawString(_ encoding: Swift.String.Encoding = .utf8, options opt: Foundation.JSONSerialization.WritingOptions = .prettyPrinted) -> Swift.String?
+  public func rawString(_ options: [Begin.writingOptionsKeys : Any]) -> Swift.String?
+  public typealias RawValue = Any
+}
+extension JSON : Swift.CustomStringConvertible, Swift.CustomDebugStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension JSON {
+  public var array: [Begin.JSON]? {
+    get
+  }
+  public var arrayValue: [Begin.JSON] {
+    get
+  }
+  public var arrayObject: [Any]? {
+    get
+    set
+  }
+}
+extension JSON {
+  public var dictionary: [Swift.String : Begin.JSON]? {
+    get
+  }
+  public var dictionaryValue: [Swift.String : Begin.JSON] {
+    get
+  }
+  public var dictionaryObject: [Swift.String : Any]? {
+    get
+    set
+  }
+}
+extension JSON {
+  public var bool: Swift.Bool? {
+    get
+    set
+  }
+  public var boolValue: Swift.Bool {
+    get
+    set
+  }
+}
+extension JSON {
+  public var string: Swift.String? {
+    get
+    set
+  }
+  public var stringValue: Swift.String {
+    get
+    set
+  }
+}
+extension JSON {
+  public var number: Foundation.NSNumber? {
+    get
+    set
+  }
+  public var numberValue: Foundation.NSNumber {
+    get
+    set
+  }
+}
+extension JSON {
+  public var null: Foundation.NSNull? {
+    get
+    set
+  }
+  public func exists() -> Swift.Bool
+}
+extension JSON {
+  public var url: Foundation.URL? {
+    get
+    set
+  }
+}
+extension JSON {
+  public var double: Swift.Double? {
+    get
+    set
+  }
+  public var doubleValue: Swift.Double {
+    get
+    set
+  }
+  public var float: Swift.Float? {
+    get
+    set
+  }
+  public var floatValue: Swift.Float {
+    get
+    set
+  }
+  public var int: Swift.Int? {
+    get
+    set
+  }
+  public var intValue: Swift.Int {
+    get
+    set
+  }
+  public var uInt: Swift.UInt? {
+    get
+    set
+  }
+  public var uIntValue: Swift.UInt {
+    get
+    set
+  }
+  public var int8: Swift.Int8? {
+    get
+    set
+  }
+  public var int8Value: Swift.Int8 {
+    get
+    set
+  }
+  public var uInt8: Swift.UInt8? {
+    get
+    set
+  }
+  public var uInt8Value: Swift.UInt8 {
+    get
+    set
+  }
+  public var int16: Swift.Int16? {
+    get
+    set
+  }
+  public var int16Value: Swift.Int16 {
+    get
+    set
+  }
+  public var uInt16: Swift.UInt16? {
+    get
+    set
+  }
+  public var uInt16Value: Swift.UInt16 {
+    get
+    set
+  }
+  public var int32: Swift.Int32? {
+    get
+    set
+  }
+  public var int32Value: Swift.Int32 {
+    get
+    set
+  }
+  public var uInt32: Swift.UInt32? {
+    get
+    set
+  }
+  public var uInt32Value: Swift.UInt32 {
+    get
+    set
+  }
+  public var int64: Swift.Int64? {
+    get
+    set
+  }
+  public var int64Value: Swift.Int64 {
+    get
+    set
+  }
+  public var uInt64: Swift.UInt64? {
+    get
+    set
+  }
+  public var uInt64Value: Swift.UInt64 {
+    get
+    set
+  }
+}
+extension JSON : Swift.Comparable {
+}
+public func == (lhs: Begin.JSON, rhs: Begin.JSON) -> Swift.Bool
+public func <= (lhs: Begin.JSON, rhs: Begin.JSON) -> Swift.Bool
+public func >= (lhs: Begin.JSON, rhs: Begin.JSON) -> Swift.Bool
+public func > (lhs: Begin.JSON, rhs: Begin.JSON) -> Swift.Bool
+public func < (lhs: Begin.JSON, rhs: Begin.JSON) -> Swift.Bool
+public enum writingOptionsKeys {
+  case jsonSerialization
+  case castNilToNSNull
+  case maxObjextDepth
+  case encoding
+  public static func == (a: Begin.writingOptionsKeys, b: Begin.writingOptionsKeys) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+extension JSON : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public class LocationModel : Swift.Codable {
+  public init(latitude: Swift.Double, longitude: Swift.Double)
+  @objc deinit
+  required public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension Disk {
+  public static func save(_ value: [UIKit.UIImage], to directory: Begin.Disk.Directory, as path: Swift.String) throws
+  public static func append(_ value: UIKit.UIImage, to path: Swift.String, in directory: Begin.Disk.Directory) throws
+  public static func append(_ value: [UIKit.UIImage], to path: Swift.String, in directory: Begin.Disk.Directory) throws
+  public static func retrieve(_ path: Swift.String, from directory: Begin.Disk.Directory, as type: [UIKit.UIImage].Type) throws -> [UIKit.UIImage]
+}
+@available(iOS 11.0, *)
+extension Disk {
+  public static var totalCapacity: Swift.Int? {
+    get
+  }
+  public static var availableCapacity: Swift.Int? {
+    get
+  }
+  public static var availableCapacityForImportantUsage: Swift.Int? {
+    get
+  }
+  public static var availableCapacityForOpportunisticUsage: Swift.Int? {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class Disk {
+  public enum Directory : Swift.Equatable {
+    case documents
+    case caches
+    case applicationSupport
+    case temporary
+    case sharedContainer(appGroupName: Swift.String)
+    public var pathDescription: Swift.String {
+      get
+    }
+    public static func == (lhs: Begin.Disk.Directory, rhs: Begin.Disk.Directory) -> Swift.Bool
+  }
+  @objc deinit
+}
+public let EMPTY_NUMBER: Swift.Double
+public class BeginWorker {
+  public init(url: Swift.String, appId: Swift.String, secretKey: Swift.String)
+  public class func shared() -> Begin.BeginWorker
+  public func updateTextFeature(key: Swift.String, value: Swift.String)
+  public func updateNumericalFeature(key: Swift.String, value: Swift.Int)
+  public func updateNumericalFeature(key: Swift.String, value: Swift.Double)
+  public func updateLocationFeature(key: Swift.String, value: Begin.LocationModel)
+  public func logTest() -> Swift.String
+  public func updateFeature(key: Swift.String, value: Any)
+  public func fetchInstructions()
+  public func fetchInstructionsAndPost()
+  public func processAndPost()
+  public func inference()
+  @objc deinit
+}
+extension Disk {
+  public static func save<T>(_ value: T, to directory: Begin.Disk.Directory, as path: Swift.String, encoder: Foundation.JSONEncoder = JSONEncoder()) throws where T : Swift.Encodable
+  public static func append<T>(_ value: T, to path: Swift.String, in directory: Begin.Disk.Directory, decoder: Foundation.JSONDecoder = JSONDecoder(), encoder: Foundation.JSONEncoder = JSONEncoder()) throws where T : Swift.Decodable, T : Swift.Encodable
+  public static func append<T>(_ value: [T], to path: Swift.String, in directory: Begin.Disk.Directory, decoder: Foundation.JSONDecoder = JSONDecoder(), encoder: Foundation.JSONEncoder = JSONEncoder()) throws where T : Swift.Decodable, T : Swift.Encodable
+  public static func retrieve<T>(_ path: Swift.String, from directory: Begin.Disk.Directory, as type: T.Type, decoder: Foundation.JSONDecoder = JSONDecoder()) throws -> T where T : Swift.Decodable
+}
+extension Disk {
+  @available(*, deprecated, message: "Use Disk.url(for:in:) instead, it does not throw an error if the file does not exist.")
+  public static func getURL(for path: Swift.String?, in directory: Begin.Disk.Directory) throws -> Foundation.URL
+  public static func url(for path: Swift.String?, in directory: Begin.Disk.Directory) throws -> Foundation.URL
+  public static func clear(_ directory: Begin.Disk.Directory) throws
+  public static func remove(_ path: Swift.String, from directory: Begin.Disk.Directory) throws
+  public static func remove(_ url: Foundation.URL) throws
+  public static func exists(_ path: Swift.String, in directory: Begin.Disk.Directory) -> Swift.Bool
+  public static func exists(_ url: Foundation.URL) -> Swift.Bool
+  public static func doNotBackup(_ path: Swift.String, in directory: Begin.Disk.Directory) throws
+  public static func doNotBackup(_ url: Foundation.URL) throws
+  public static func backup(_ path: Swift.String, in directory: Begin.Disk.Directory) throws
+  public static func backup(_ url: Foundation.URL) throws
+  public static func move(_ path: Swift.String, in directory: Begin.Disk.Directory, to newDirectory: Begin.Disk.Directory) throws
+  public static func move(_ originalURL: Foundation.URL, to newURL: Foundation.URL) throws
+  public static func rename(_ path: Swift.String, in directory: Begin.Disk.Directory, to newPath: Swift.String) throws
+  public static func isFolder(_ url: Foundation.URL) -> Swift.Bool
+}
+extension Disk {
+  public static func save(_ value: UIKit.UIImage, to directory: Begin.Disk.Directory, as path: Swift.String) throws
+  public static func retrieve(_ path: Swift.String, from directory: Begin.Disk.Directory, as type: UIKit.UIImage.Type) throws -> UIKit.UIImage
+}
+extension Begin.Disk.ErrorCode : Swift.Equatable {}
+extension Begin.Disk.ErrorCode : Swift.Hashable {}
+extension Begin.Disk.ErrorCode : Swift.RawRepresentable {}
+extension Begin.SwiftyJSONError : Swift.Equatable {}
+extension Begin.SwiftyJSONError : Swift.Hashable {}
+extension Begin.SwiftyJSONError : Swift.RawRepresentable {}
+extension Begin.`Type` : Swift.Equatable {}
+extension Begin.`Type` : Swift.Hashable {}
+extension Begin.`Type` : Swift.RawRepresentable {}
+extension Begin.writingOptionsKeys : Swift.Equatable {}
+extension Begin.writingOptionsKeys : Swift.Hashable {}

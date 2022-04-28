@@ -39,6 +39,11 @@
 		571212B326CE8C6200F21516 /* Disk+[Data].swift in Sources */ = {isa = PBXBuildFile; fileRef = 571212A826CE8C6200F21516 /* Disk+[Data].swift */; };
 		571212B426CE8C6200F21516 /* Disk+VolumeInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571212A926CE8C6200F21516 /* Disk+VolumeInformation.swift */; };
 		571212B526CE8C6200F21516 /* Disk+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571212AA26CE8C6200F21516 /* Disk+Codable.swift */; };
+		5744411B27DB643D007C89F4 /* BeginProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5744411A27DB643D007C89F4 /* BeginProcessor.swift */; };
+		574CDB6E280D84B100A631D1 /* PEngagementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574CDB6D280D84B100A631D1 /* PEngagementModel.swift */; };
+		57B5342827DF505600694965 /* ObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5342727DF505600694965 /* ObjectModel.swift */; };
+		57B5342B27DF51D800694965 /* InteractionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5342A27DF51D800694965 /* InteractionModel.swift */; };
+		57CA107728104F1500BB8E3F /* Logg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CA107628104F1500BB8E3F /* Logg.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +81,11 @@
 		571212A826CE8C6200F21516 /* Disk+[Data].swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Disk+[Data].swift"; sourceTree = "<group>"; };
 		571212A926CE8C6200F21516 /* Disk+VolumeInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Disk+VolumeInformation.swift"; sourceTree = "<group>"; };
 		571212AA26CE8C6200F21516 /* Disk+Codable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Disk+Codable.swift"; sourceTree = "<group>"; };
+		5744411A27DB643D007C89F4 /* BeginProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginProcessor.swift; sourceTree = "<group>"; };
+		574CDB6D280D84B100A631D1 /* PEngagementModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PEngagementModel.swift; sourceTree = "<group>"; };
+		57B5342727DF505600694965 /* ObjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectModel.swift; sourceTree = "<group>"; };
+		57B5342A27DF51D800694965 /* InteractionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionModel.swift; sourceTree = "<group>"; };
+		57CA107628104F1500BB8E3F /* Logg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logg.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +164,10 @@
 			children = (
 				5712127C26CE8C3200F21516 /* Begin.swift */,
 				5712127D26CE8C3200F21516 /* BeginWorker.swift */,
+				5744411A27DB643D007C89F4 /* BeginProcessor.swift */,
+				57B5342727DF505600694965 /* ObjectModel.swift */,
+				57B5342A27DF51D800694965 /* InteractionModel.swift */,
+				57CA107628104F1500BB8E3F /* Logg.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -172,6 +186,7 @@
 				5712127726CE8C2B00F21516 /* InferenceModel.swift */,
 				5712127526CE8C2B00F21516 /* InstructionModel.swift */,
 				5712127626CE8C2B00F21516 /* PostResponse.swift */,
+				574CDB6D280D84B100A631D1 /* PEngagementModel.swift */,
 			);
 			path = ResponseModels;
 			sourceTree = "<group>";
@@ -340,15 +355,19 @@
 				5712128226CE8C3B00F21516 /* DateInstruction.swift in Sources */,
 				571212B226CE8C6200F21516 /* Disk+Data.swift in Sources */,
 				5712128F26CE8C4B00F21516 /* Pair.swift in Sources */,
+				57CA107728104F1500BB8E3F /* Logg.swift in Sources */,
 				5712129D26CE8C5C00F21516 /* SwiftyJSON.swift in Sources */,
 				5712127926CE8C2B00F21516 /* PostResponse.swift in Sources */,
+				57B5342B27DF51D800694965 /* InteractionModel.swift in Sources */,
 				5712129526CE8C5500F21516 /* TextInstruction.swift in Sources */,
 				5712128926CE8C4600F21516 /* LocationModel.swift in Sources */,
 				5712127A26CE8C2B00F21516 /* InferenceModel.swift in Sources */,
 				571212AC26CE8C6200F21516 /* Disk+[UIImage].swift in Sources */,
 				5712127026CE8C2000F21516 /* APIConstants.swift in Sources */,
+				574CDB6E280D84B100A631D1 /* PEngagementModel.swift in Sources */,
 				5712126F26CE8C2000F21516 /* BeginAPI.swift in Sources */,
 				571212B426CE8C6200F21516 /* Disk+VolumeInformation.swift in Sources */,
+				57B5342827DF505600694965 /* ObjectModel.swift in Sources */,
 				5712129C26CE8C5C00F21516 /* LocalConstants.swift in Sources */,
 				571212AD26CE8C6200F21516 /* Disk.swift in Sources */,
 				5712129E26CE8C5C00F21516 /* Extensions.swift in Sources */,
@@ -356,6 +375,7 @@
 				5712127F26CE8C3200F21516 /* BeginWorker.swift in Sources */,
 				571212B526CE8C6200F21516 /* Disk+Codable.swift in Sources */,
 				5712129226CE8C5000F21516 /* SequenceInstruction.swift in Sources */,
+				5744411B27DB643D007C89F4 /* BeginProcessor.swift in Sources */,
 				571212AF26CE8C6200F21516 /* Disk+Helpers.swift in Sources */,
 				571212B126CE8C6200F21516 /* Disk+UIImage.swift in Sources */,
 				5712128526CE8C4000F21516 /* BaseInstruction.swift in Sources */,

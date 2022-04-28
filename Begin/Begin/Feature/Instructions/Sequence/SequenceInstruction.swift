@@ -23,8 +23,13 @@ class SequenceInstruction : BaseInstruction {
             if val2 == "\(EMPTY_NUMBER)" || val2 == "" {
                 return EMPTY_NUMBER
             }
-            else if let seq : Int = instruction.params?.sequenceMap?[val2].intValue {
-                return Double(seq)
+            else if let seq = instruction.params?.sequenceMap?[val2] {
+                if "\(seq)".isNumeric {
+                    return Double("\(seq)")!
+                }
+                else {
+                    return (instruction.params?.sequenceMap?["_GB_EMPTY"].doubleValue)!
+                }
             }
             else {
                 return EMPTY_NUMBER

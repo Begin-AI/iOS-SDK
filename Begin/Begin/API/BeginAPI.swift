@@ -6,91 +6,148 @@ import Foundation
 
 class BeginAPI {
     
-    var baseUrl = ""
+    var baseUrl = "https://sdk.begin.ai/"
+    var appId = ""
+    var licenseKey = ""
     
-    init (url : String){
-        self.baseUrl = url
+    init (appId : String , licenseKey : String){
+        self.appId = appId
+        self.licenseKey = licenseKey
     }
     
-    func fetchInstructions (success: @escaping (([InstructionModel]) -> Void), failed: @escaping ((Any) -> Void)) {
+    func fetchInstructions (success: @escaping (([String:[InstructionModel]]) -> Void), failed: @escaping ((Any) -> Void)) {
         let url = URL(string: baseUrl + getFetchInstructionsUrl())!
         let session = URLSession.shared
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
-
+        request.addValue(appId, forHTTPHeaderField: "AppID")
+        request.addValue(licenseKey, forHTTPHeaderField: "LicenseKey")
+        Logg.i(text: "Making Fetch Instructions Request")
+        Logg.d(text: "GET Request: \(url)")
         let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
             guard error == nil else {
-                print("Fetch instructions Failed - no response")
+                Logg.i(text: "Fetch instructions Failed - no response")
                 failed("")
                 return
             }
             guard let data = data else {
-                print("Fetch instructions Failed - no data")
+                Logg.i(text: "Fetch instructions Failed - no data")
                 failed("")
                 return
             }
             do {
-                print("data \(data) \(response)")
                 let instructionResponse = try JSONDecoder().decode(InstructionResponse.self, from: data)
                 if instructionResponse.success {
+                    let id = instructionResponse.result.instructions[0].id.unwrappedValue
+                    setPreference(key: INSTRUCTION_ID, value: id)
                     let version = instructionResponse.result.versionNumber
                     setPreference(key: FETCH_VERSION, value: version)
-                    let instructions = instructionResponse.result.instructions[0].instructions
-                    print("Fetch instructions Success - version no: \(version)")
+                    let instructions = instructionResponse.result.instructions[0].instructions[0]
+                    Logg.i(text: "Fetch instructions Success")
                     success(instructions)
                 }
                 else {
-                    print("Fetch instructions Failed\n\(instructionResponse)")
+                    Logg.i(text: "Fetch instructions Failed")
+                    Logg.d(text: "\(instructionResponse)")
                     failed("")
                 }
             } catch let error {
-                print("Fetch instructions Failed\n\(error)")
+                Logg.i(text: "Fetch instructions Failed")
+                Logg.d(text: "\(error)")
                 failed("")
             }
         })
         task.resume()
     }
     
-    func sendInstructions (model : EmbeddingModel, success: @escaping ((Any) -> Void), failed: @escaping ((Any) -> Void)) {
+    func predictEngagement (projectId: String, objectId: String, userId: String, success: @escaping ((PEngagementModel) -> Void), failed: @escaping ((Any) -> Void)) {
+        let url = URL(string: baseUrl + getPredictEngagementUrl(projectId: projectId, objectId: objectId, userId: userId))!
+        let session = URLSession.shared
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue(appId, forHTTPHeaderField: "AppID")
+        request.addValue(licenseKey, forHTTPHeaderField: "LicenseKey")
+        Logg.i(text: "Making Predict Engagement Request")
+        Logg.d(text: "GET Request: \(url)")
+        let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+            guard error == nil else {
+                Logg.i(text: "Predict Engagement Failed - no response")
+                failed("")
+                return
+            }
+            guard let data = data else {
+                Logg.i(text: "Predict Engagement Failed - no data")
+                failed("")
+                return
+            }
+            do {
+                let response = try JSONDecoder().decode(PEngagementModel.self, from: data)
+                if response.success {
+                    let result = response.result.results
+                    Logg.i(text: "Predict Engagement Success")
+                    Logg.d(text: "\(result)")
+                    success(response)
+                }
+                else {
+                    Logg.i(text: "Predict Engagement Failed")
+                    Logg.d(text: "\(response)")
+                    failed("")
+                }
+            } catch let error {
+                Logg.i(text: "Predict Engagement Failed")
+                Logg.d(text: "\(error)")
+                failed("")
+            }
+        })
+        task.resume()
+    }
+    
+    func sendInstructions (finalObject: [String: Any], success: @escaping ((Any) -> Void), failed: @escaping ((Any) -> Void)) {
         let url = URL(string: baseUrl + getEmbeddingUrl())!
         let session = URLSession.shared
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
-        var params : [String: Any] = [:]
-        params["embedding"] = model.embedding
-        params["version_number"] = model.version_number
+        request.addValue(appId, forHTTPHeaderField: "AppID")
+        request.addValue(licenseKey, forHTTPHeaderField: "LicenseKey")
+        Logg.i(text: "Making Send Instructions Request")
+        Logg.d(text: "POST Request: \(url)")
         do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: params)
+            request.httpBody = try JSONSerialization.data(withJSONObject: finalObject)
         } catch let error {
-            print(error)
+            Logg.i(text: "Send instructions Failed")
+            Logg.d(text: "\(error)")
         }
         let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
             guard error == nil else {
-                print("Send instructions Failed - no response")
+                Logg.i(text: "Send instructions Failed - no response")
                 failed("")
                 return
             }
             guard let data = data else {
-                print("Send instructions Failed - no data")
+                Logg.i(text: "Send instructions Failed - no data")
                 failed("")
                 return
             }
             do {
                 let instructionResponse = try JSONDecoder().decode(PostResponse.self, from: data)
                 if instructionResponse.success {
-                    print("Send instructions success")
+                    Logg.i(text: "Send instructions success")
                     success(instructionResponse)
                 }
                 else {
-                    print("Send instructions Failed\n\(instructionResponse)")
+                    Logg.i(text: "Send instructions failed")
+                    Logg.d(text: "\(instructionResponse)")
                     failed("")
                 }
             } catch let error {
-                print("Send instructions Failed\n\(error)")
+                Logg.i(text: "Send instructions failed")
+                Logg.d(text: "\(error)")
                 failed("")
             }
         })
@@ -104,37 +161,45 @@ class BeginAPI {
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue(appId, forHTTPHeaderField: "AppID")
+        request.addValue(licenseKey, forHTTPHeaderField: "LicenseKey")
+        
+        Logg.i(text: "Making Inference Request")
+        Logg.d(text: "GET Request: \(url)")
+        
         var params : [String: Any] = [:]
         params["embedding"] = array
         do {
-            print("params \(params)")
             request.httpBody = try JSONSerialization.data(withJSONObject: params)
         } catch let error {
-            print(error)
+            Logg.i(text: "Inference Failed")
+            Logg.d(text: "\(error)")
         }
         let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
             guard error == nil else {
-                print("Inference Failed - no response")
+                Logg.i(text: "Inference Failed - no response")
                 failed("")
                 return
             }
             guard let data = data else {
-                print("Inference Failed - no data")
+                Logg.i(text: "Inference Failed - no data")
                 failed("")
                 return
             }
             do {
                 let inferenceResponse = try JSONDecoder().decode(InferenceResponse.self, from: data)
                 if inferenceResponse.success {
-                    print("Inference success")
+                    Logg.i(text: "Inference success")
                     success(inferenceResponse.result)
                 }
                 else {
-                    print("Inference Failed\n\(inferenceResponse)")
+                    Logg.i(text: "Inference failed")
+                    Logg.d(text: "\(inferenceResponse)")
                     failed("")
                 }
             } catch let error {
-                print("Inference Failed\n\(error)")
+                Logg.i(text: "Inference failed")
+                Logg.d(text: "\(error)")
                 failed("")
             }
         })
