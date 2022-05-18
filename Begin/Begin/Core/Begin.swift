@@ -11,10 +11,12 @@ class Begin {
     var embeddedList : [Double] = []
     var objectList : [ObjectModel] = []
     var interactionList : [ObjectModel] = []
+    var labels : [LabelModel] = []
     let ERR_NUMBER = 0.00011
     let EMPTY_NUMBER = 0.00012
     let CONTINUE_NUMBER = -1337.37
     
+    var parsedLabels : [String:[String]] = [:]
     var userId : String = ""
     var appId = ""
     var licenseKey = ""
@@ -84,6 +86,35 @@ class Begin {
         }
     }
     
+    func containsLabels (objectName: String) -> Int {
+        for i in 0..<labels.count {
+            if labels[i].objectName == objectName {
+                return i
+            }
+        }
+        return -100
+    }
+    
+    func addLabel (objectType : String, objectId : String, value : String){
+        var index = containsLabels(objectName: objectType)
+        if index == -100 {
+            let model = LabelModel.init(objectName: objectType)
+            labels.append(model)
+            index = labels.count - 1
+        }
+        let labelModel = labels[index]
+        if labelModel.objectMap[objectId] != nil {
+            if !labelModel.objectMap[objectId]!.contains(value) {
+                labelModel.objectMap[objectId]!.append(value)
+            }
+        }
+        else {
+            var list : [String] = []
+            list.append(value)
+            labelModel.objectMap[objectId] = list
+        }
+    }
+    
     func logUserInfo () -> String {
         Logg.i(text: "\(userFeatures as AnyObject)")
         return "\(userFeatures as AnyObject)"
@@ -93,9 +124,10 @@ class Begin {
         self.userId = userId
     }
 
-    func processInstructions (instructions : [String:[InstructionModel]]){
+    func processInstructions (iParser : InstructionParser){
+        self.parsedLabels = iParser.labels
         embeddedList.removeAll()
-        for inst in instructions {
+        for inst in iParser.instructions {
             if inst.key == "user" {
                 processUser(model: inst.value)
             }
@@ -103,7 +135,7 @@ class Begin {
                 processInteractions(interactions: inst.value)
             }
             else{
-                processObject(model: inst.value)
+                processObject(model: inst.value, modelName: inst.key)
             }
         }
         var finalObject: [String: Any] = [:]
@@ -117,21 +149,68 @@ class Begin {
         let beginProcessor = BeginProcessor.init(features: userFeatures)
         let userEmbedList = beginProcessor.processInstructions(instructions: model)
         var innerobject: [String: Any] = [:]
-        innerobject[userId] = userEmbedList
+        var labelList : [String] = []
+        let index = containsLabels(objectName: "user")
+        if index != -100 {
+            let labelModel = labels[index]
+            for objectMap in labelModel.objectMap {
+                let objkey = objectMap.key
+                let object = objectMap.value
+                if parsedLabels["user"] != nil {
+                    let pList = parsedLabels["user"]
+                    if objkey == userId {
+                        for lbl in object {
+                            if pList!.contains(lbl) {
+                                labelList.append(lbl)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        var userObject: [String: Any] = [:]
+        userObject["labels"] = labelList
+        userObject["embedding"] = userEmbedList
+        innerobject[userId] = userObject
         embeddingObject["user"] = innerobject
     }
     
-    func processObject (model : [InstructionModel]){
+    func processObject (model : [InstructionModel], modelName : String){
         for objectModel in objectList {
-            var innerobject: [String: Any] = [:]
-            for objectMap in objectModel.objectMap {
-                let objkey = objectMap.key
-                let object = objectMap.value
-                let beginProcessor = BeginProcessor.init(features: object)
-                let objectEmbeddingList = beginProcessor.processInstructions(instructions: model)
-                innerobject[objkey] = objectEmbeddingList
-            }
-            embeddingObject[objectModel.objectName] = innerobject
+            if objectModel.objectName == modelName {
+                var innerobject: [String: Any] = [:]
+                for objectMap in objectModel.objectMap {
+                    let objkey = objectMap.key
+                    let object = objectMap.value
+                    let beginProcessor = BeginProcessor.init(features: object)
+                    let objectEmbeddingList = beginProcessor.processInstructions(instructions: model)
+                    innerobject[objkey] = objectEmbeddingList
+                    var labelList : [String] = []
+                    let index = containsLabels(objectName: objectModel.objectName)
+                    if index != -100 {
+                        let labelModel = labels[index]
+                        for objectMapInner in labelModel.objectMap {
+                            let okey = objectMapInner.key
+                            let oct = objectMapInner.value
+                            if parsedLabels[objectModel.objectName] != nil {
+                                let pList = parsedLabels[objectModel.objectName]
+                                if okey == objkey {
+                                    for lbl in oct {
+                                        if pList!.contains(lbl) {
+                                            labelList.append(lbl)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    var builtObject: [String: Any] = [:]
+                    builtObject["labels"] = labelList
+                    builtObject["embedding"] = objectEmbeddingList
+                    innerobject[objkey] = builtObject
+                }
+                embeddingObject[objectModel.objectName] = innerobject
+            }            
         }
     }
     
@@ -190,7 +269,6 @@ class Begin {
     func postInstructions (finalObject: [String: Any]){
         let beginApi = BeginAPI.init(appId: appId, licenseKey: licenseKey)
         beginApi.sendInstructions(finalObject: finalObject, success:  { [self] (response) in
-            Logg.d(text: "response \(response)")
         }) { (message) in
         }
     }

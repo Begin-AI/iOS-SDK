@@ -39,6 +39,8 @@
 		571212B326CE8C6200F21516 /* Disk+[Data].swift in Sources */ = {isa = PBXBuildFile; fileRef = 571212A826CE8C6200F21516 /* Disk+[Data].swift */; };
 		571212B426CE8C6200F21516 /* Disk+VolumeInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571212A926CE8C6200F21516 /* Disk+VolumeInformation.swift */; };
 		571212B526CE8C6200F21516 /* Disk+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571212AA26CE8C6200F21516 /* Disk+Codable.swift */; };
+		573665362834FFF1007563AC /* BooleanInstruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573665352834FFF1007563AC /* BooleanInstruction.swift */; };
+		5740097F282D29770057005D /* LabelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5740097E282D29770057005D /* LabelModel.swift */; };
 		5744411B27DB643D007C89F4 /* BeginProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5744411A27DB643D007C89F4 /* BeginProcessor.swift */; };
 		574CDB6E280D84B100A631D1 /* PEngagementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574CDB6D280D84B100A631D1 /* PEngagementModel.swift */; };
 		57B5342827DF505600694965 /* ObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5342727DF505600694965 /* ObjectModel.swift */; };
@@ -81,6 +83,8 @@
 		571212A826CE8C6200F21516 /* Disk+[Data].swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Disk+[Data].swift"; sourceTree = "<group>"; };
 		571212A926CE8C6200F21516 /* Disk+VolumeInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Disk+VolumeInformation.swift"; sourceTree = "<group>"; };
 		571212AA26CE8C6200F21516 /* Disk+Codable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Disk+Codable.swift"; sourceTree = "<group>"; };
+		573665352834FFF1007563AC /* BooleanInstruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooleanInstruction.swift; sourceTree = "<group>"; };
+		5740097E282D29770057005D /* LabelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelModel.swift; sourceTree = "<group>"; };
 		5744411A27DB643D007C89F4 /* BeginProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginProcessor.swift; sourceTree = "<group>"; };
 		574CDB6D280D84B100A631D1 /* PEngagementModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PEngagementModel.swift; sourceTree = "<group>"; };
 		57B5342727DF505600694965 /* ObjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectModel.swift; sourceTree = "<group>"; };
@@ -168,6 +172,7 @@
 				57B5342727DF505600694965 /* ObjectModel.swift */,
 				57B5342A27DF51D800694965 /* InteractionModel.swift */,
 				57CA107628104F1500BB8E3F /* Logg.swift */,
+				5740097E282D29770057005D /* LabelModel.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -195,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				5712128426CE8C4000F21516 /* BaseInstruction.swift */,
+				573665342834FFE2007563AC /* Boolean */,
 				5712126B26CE8B9100F21516 /* Date */,
 				5712126A26CE8B8B00F21516 /* Location */,
 				5712126926CE8B8500F21516 /* Numerical */,
@@ -262,6 +268,14 @@
 				571212A926CE8C6200F21516 /* Disk+VolumeInformation.swift */,
 			);
 			path = Disk;
+			sourceTree = "<group>";
+		};
+		573665342834FFE2007563AC /* Boolean */ = {
+			isa = PBXGroup;
+			children = (
+				573665352834FFF1007563AC /* BooleanInstruction.swift */,
+			);
+			path = Boolean;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -364,9 +378,11 @@
 				5712127A26CE8C2B00F21516 /* InferenceModel.swift in Sources */,
 				571212AC26CE8C6200F21516 /* Disk+[UIImage].swift in Sources */,
 				5712127026CE8C2000F21516 /* APIConstants.swift in Sources */,
+				5740097F282D29770057005D /* LabelModel.swift in Sources */,
 				574CDB6E280D84B100A631D1 /* PEngagementModel.swift in Sources */,
 				5712126F26CE8C2000F21516 /* BeginAPI.swift in Sources */,
 				571212B426CE8C6200F21516 /* Disk+VolumeInformation.swift in Sources */,
+				573665362834FFF1007563AC /* BooleanInstruction.swift in Sources */,
 				57B5342827DF505600694965 /* ObjectModel.swift in Sources */,
 				5712129C26CE8C5C00F21516 /* LocalConstants.swift in Sources */,
 				571212AD26CE8C6200F21516 /* Disk.swift in Sources */,

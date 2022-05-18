@@ -13,7 +13,8 @@ public class BeginWorker {
     var licenseKey = ""
     var begin : Begin!
     var versionInt = 0
-    var instructions: [String:[InstructionModel]]!
+    var userId = ""
+    var objects : [String:[String]] = [:]
     
     public init (appId : String , licenseKey : String) {
         self.appId = appId
@@ -29,47 +30,119 @@ public class BeginWorker {
     }
     
     public func registerUser (userId : String) {
+        self.userId = userId
         begin.setUserId(userId: userId)
+        registerObject(objectName: "user", objectId: userId)
     }
     
     public func registerObject (objectName: String, objectId: String){
-        
+        if objects[objectName] != nil {
+            objects[objectName]!.append(objectId)
+        }
+        else {
+            var objList : [String] = []
+            objList.append(objectId)
+            objects[objectName] = objList
+        }
     }
     
     public func updateUserTextField (key : String, value : String){
-        updateUserFeature(key: key, value: value)
+        if userId != "" {
+            updateUserFeature(key: key, value: value)
+        }
+        else {
+            Logg.i(text: "You need to register a user first")
+        }
     }
     
     public func updateUserDateField (key : String, day: String, month: String, year : String) {
-        updateUserFeature(key: key, value: day+"-"+month+"-"+year)
+        if userId != "" {
+            updateUserFeature(key: key, value: day+"-"+month+"-"+year)
+        }
+        else {
+            Logg.i(text: "You need to register a user first")
+        }
     }
     
     public func updateUserNumericalField (key : String, value : Int){
-        updateUserFeature(key: key, value: value)
+        if userId != "" {
+            updateUserFeature(key: key, value: value)
+        }
+        else {
+            Logg.i(text: "You need to register a user first")
+        }
+    }
+    
+    public func updateUserBooleanField (key : String, value : Bool){
+        if userId != "" {
+            updateUserFeature(key: key, value: getBoolAsText(value: value))
+        }
+        else {
+            Logg.i(text: "You need to register a user first")
+        }
     }
     
     public func updateLocationField (key : String, value : LocationModel){
-        updateUserFeature(key: key, value: value)
+        if userId != "" {
+            updateUserFeature(key: key, value: value)
+        }
+        else {
+            Logg.i(text: "You need to register a user first")
+        }
     }
     
     func updateUserFeature (key : String, value : Any){
-        begin.updateUserFeatures(key: key, value: value)
+        if userId != "" {
+            begin.updateUserFeatures(key: key, value: value)
+        }
+        else {
+            Logg.i(text: "You need to register a user first")
+        }
+    }
+    
+    func isObjectAvailable (objectType : String, objectId : String) -> Bool {
+        if objects[objectType] != nil {
+            if objects[objectType]!.contains(objectId) {
+                return true
+            }
+            Logg.i(text: "Object with id: '\(objectId)' for type: '\(objectType)' doesn't exist, you need to register object first.")
+            return false
+        }
+        Logg.i(text: "Object with type: '\(objectType)' doesn't exist, you need to register object first.")
+        return false
     }
     
     public func updateObjectTextField (objectType : String, objectId : String, key : String, value : String){
-        begin.updateObjectFeatures(objectType: objectType, objectId: objectId, key: key, value: value)
+        if isObjectAvailable(objectType: objectType, objectId: objectId) {
+            begin.updateObjectFeatures(objectType: objectType, objectId: objectId, key: key, value: value)
+        }
     }
     
     public func updateObjectDateField (objectType : String, objectId : String, key : String, day: String, month: String, year : String){
-        begin.updateObjectFeatures(objectType: objectType, objectId: objectId, key: key, value: day+"-"+month+"-"+year)
+        if isObjectAvailable(objectType: objectType, objectId: objectId) {
+            begin.updateObjectFeatures(objectType: objectType, objectId: objectId, key: key, value: day+"-"+month+"-"+year)
+        }
     }
     
     public func updateObjectNumericalField (objectType : String, objectId : String, key : String, value : Int){
-        begin.updateObjectFeatures(objectType: objectType, objectId: objectId, key: key, value: value)
+        if isObjectAvailable(objectType: objectType, objectId: objectId) {
+            begin.updateObjectFeatures(objectType: objectType, objectId: objectId, key: key, value: value)
+        }
+    }
+    public func updateObjectBooleanField (objectType : String, objectId : String, key : String, value : Bool){
+        if isObjectAvailable(objectType: objectType, objectId: objectId) {
+            begin.updateObjectFeatures(objectType: objectType, objectId: objectId, key: key, value: getBoolAsText(value: value))
+        }
     }
     
     public func registerInteraction (objectType : String, objectId : String, value : String){
-        begin.updateInteractions(objectType: objectType, objectId: objectId, value: value)
+        if isObjectAvailable(objectType: objectType, objectId: objectId) {
+            begin.updateInteractions(objectType: objectType, objectId: objectId, value: value)
+        }
+    }
+    
+    public func addLabel (objectType : String, objectId : String, value : String){
+        begin.addLabel(objectType: objectType, objectId: objectId, value: value)
     }
     
     public func logTest () -> String {
@@ -88,13 +161,21 @@ public class BeginWorker {
         }
     }
     
+    func getBoolAsText (value : Bool) -> String {
+        if value {
+            return "true"
+        }
+        else {
+            return "false"
+        }
+    }
+    
     func fetchDecide(shouldPost : Bool){
         let beginApi = BeginAPI.init(appId: appId, licenseKey: licenseKey)
-        beginApi.fetchInstructions(success:  { [self] (instructions) in
-            Logg.d(text: "instructions \(instructions)")
-            self.instructions = instructions
+        beginApi.fetchInstructions(success:  { [self] (iparser) in
+            Logg.d(text: "instructions \(iparser)")
             if shouldPost {
-                self.begin.processInstructions(instructions: instructions)
+                self.begin.processInstructions(iParser: iparser)
             }
         }) { (message) in
         }

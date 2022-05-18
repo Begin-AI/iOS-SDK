@@ -35,6 +35,8 @@ class BeginProcessor {
             return locationInstruction(instruction: instruction, isChain: isChain)
         case "Sequence":
             return sequenceInstruction(instruction: instruction, isChain: isChain)
+        case "Boolean":
+            return booleanInstruction(instruction: instruction, isChain: isChain)
         case "":
             chainInstruction(instruction: instruction)
             return CONTINUE_NUMBER
@@ -82,6 +84,15 @@ class BeginProcessor {
     func sequenceInstruction (instruction : InstructionModel, isChain : Bool) -> Double {
         let sequenceInstr = SequenceInstruction.init(instruction: instruction)
         let result = sequenceInstr.execute(features: features)
+        if !isChain {
+            embeddedList.append(result)
+        }
+        return result
+    }
+    
+    func booleanInstruction (instruction : InstructionModel, isChain : Bool) -> Double {
+        let booleanInstr = BooleanInstruction.init(instruction: instruction)
+        let result = booleanInstr.execute(features: features)
         if !isChain {
             embeddedList.append(result)
         }

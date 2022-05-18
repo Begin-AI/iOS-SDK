@@ -33,7 +33,9 @@ struct InstructionParams: Codable {
     let maxv, minv, numSlices: Int?
     let standardNames: [String]?
     let field, compareOn: String?
-
+    let trueValue, falseValue: Int?
+    let emptyNumber : Double?
+    
     enum CodingKeys: String, CodingKey {
         case sequenceMap = "sequence_map"
         case maxv, minv
@@ -41,6 +43,9 @@ struct InstructionParams: Codable {
         case standardNames = "standard_names"
         case field
         case compareOn = "compare_on"
+        case trueValue = "true"
+        case falseValue = "false"
+        case emptyNumber = "_GB_EMPTY"
     }
 }
 
@@ -54,24 +59,30 @@ struct InstructionResponse: Codable {
 // MARK: - Result
 struct Result: Codable {
     let instructions: [ResultInstruction]
-    let versionNumber: Int
 
     enum CodingKeys: String, CodingKey {
         case instructions
-        case versionNumber = "version_number"
     }
 }
 
 // MARK: - ResultInstruction
 struct ResultInstruction: Codable {
-    let createdAt: String?
-    let id: Int?
-//    let instructions: [Instructions]
-    var instructions: [[String:[InstructionModel]]]
+    let instruction_id: Int?
+    let version: Int
+    var instructions: [String:[InstructionModel]]
+    var labels: [String:[String]]
     let schema: Int?
 
     enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case id, instructions, schema
+        case instruction_id, instructions, schema, version, labels
+    }
+}
+
+struct InstructionParser: Codable {
+    var instructions: [String:[InstructionModel]]
+    var labels: [String:[String]]
+    
+    enum CodingKeys: String, CodingKey {
+        case instructions, labels
     }
 }

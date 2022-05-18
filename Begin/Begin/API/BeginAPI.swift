@@ -15,7 +15,7 @@ class BeginAPI {
         self.licenseKey = licenseKey
     }
     
-    func fetchInstructions (success: @escaping (([String:[InstructionModel]]) -> Void), failed: @escaping ((Any) -> Void)) {
+    func fetchInstructions (success: @escaping ((InstructionParser) -> Void), failed: @escaping ((Any) -> Void)) {
         let url = URL(string: baseUrl + getFetchInstructionsUrl())!
         let session = URLSession.shared
         var request = URLRequest(url: url)
@@ -40,13 +40,15 @@ class BeginAPI {
             do {
                 let instructionResponse = try JSONDecoder().decode(InstructionResponse.self, from: data)
                 if instructionResponse.success {
-                    let id = instructionResponse.result.instructions[0].id.unwrappedValue
+                    let id = instructionResponse.result.instructions[0].instruction_id.unwrappedValue
                     setPreference(key: INSTRUCTION_ID, value: id)
-                    let version = instructionResponse.result.versionNumber
+                    let version = instructionResponse.result.instructions[0].version
                     setPreference(key: FETCH_VERSION, value: version)
-                    let instructions = instructionResponse.result.instructions[0].instructions[0]
+                    let instructions = instructionResponse.result.instructions[0].instructions
+                    let labels = instructionResponse.result.instructions[0].labels
+                    var iParser = InstructionParser.init(instructions: instructions, labels: labels)
                     Logg.i(text: "Fetch instructions Success")
-                    success(instructions)
+                    success(iParser)
                 }
                 else {
                     Logg.i(text: "Fetch instructions Failed")
@@ -124,31 +126,20 @@ class BeginAPI {
             Logg.d(text: "\(error)")
         }
         let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
-            guard error == nil else {
-                Logg.i(text: "Send instructions Failed - no response")
-                failed("")
-                return
-            }
-            guard let data = data else {
-                Logg.i(text: "Send instructions Failed - no data")
-                failed("")
-                return
-            }
-            do {
-                let instructionResponse = try JSONDecoder().decode(PostResponse.self, from: data)
-                if instructionResponse.success {
+            if let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode == 200 {
                     Logg.i(text: "Send instructions success")
-                    success(instructionResponse)
+                    success("")
+                    return
                 }
                 else {
-                    Logg.i(text: "Send instructions failed")
-                    Logg.d(text: "\(instructionResponse)")
+                    Logg.i(text: "Send instructions Failed - \(httpResponse.statusCode)")
                     failed("")
+                    return
                 }
-            } catch let error {
-                Logg.i(text: "Send instructions failed")
-                Logg.d(text: "\(error)")
-                failed("")
+            }
+            else {
+                Logg.i(text: "Send instructions Failed - no response")
             }
         })
         task.resume()
