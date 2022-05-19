@@ -21,22 +21,13 @@ class BooleanInstruction : BaseInstruction {
             let val = features[instruction.fID.unwrappedValue]!
             let val2 = "\(val)"
             if val2 == "\(EMPTY_NUMBER)" || val2 == "" {
-                if let emptyValue = instruction.params?.emptyNumber {
-                    return Double(emptyValue)
-                }
                 return EMPTY_NUMBER
             }
             else if val2 == "true" {
-                if let trueValue = instruction.params?.trueValue {
-                    return Double(trueValue)
-                }
-                return ERR_NUMBER
+                return 2
             }
             else if val2 == "false" {
-                if let falseValue = instruction.params?.falseValue {
-                    return Double(falseValue)
-                }
-                return ERR_NUMBER
+                return 1
             }
             else {
                 return EMPTY_NUMBER

@@ -33,8 +33,6 @@ struct InstructionParams: Codable {
     let maxv, minv, numSlices: Int?
     let standardNames: [String]?
     let field, compareOn: String?
-    let trueValue, falseValue: Int?
-    let emptyNumber : Double?
     
     enum CodingKeys: String, CodingKey {
         case sequenceMap = "sequence_map"
@@ -43,9 +41,6 @@ struct InstructionParams: Codable {
         case standardNames = "standard_names"
         case field
         case compareOn = "compare_on"
-        case trueValue = "true"
-        case falseValue = "false"
-        case emptyNumber = "_GB_EMPTY"
     }
 }
 

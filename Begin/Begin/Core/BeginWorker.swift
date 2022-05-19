@@ -75,7 +75,7 @@ public class BeginWorker {
     
     public func updateUserBooleanField (key : String, value : Bool){
         if userId != "" {
-            updateUserFeature(key: key, value: getBoolAsText(value: value))
+            updateUserFeature(key: key, value: value)
         }
         else {
             Logg.i(text: "You need to register a user first")
@@ -131,7 +131,7 @@ public class BeginWorker {
     }
     public func updateObjectBooleanField (objectType : String, objectId : String, key : String, value : Bool){
         if isObjectAvailable(objectType: objectType, objectId: objectId) {
-            begin.updateObjectFeatures(objectType: objectType, objectId: objectId, key: key, value: getBoolAsText(value: value))
+            begin.updateObjectFeatures(objectType: objectType, objectId: objectId, key: key, value: value)
         }
     }
     
@@ -158,15 +158,6 @@ public class BeginWorker {
         beginApi.predictEngagement(projectId: projectId, objectId: objectId, userId: userId, success:  { [self] (result) in
             Logg.i(text: "Predict Engagement Result: \(result.result.results)")
         }) { (message) in
-        }
-    }
-    
-    func getBoolAsText (value : Bool) -> String {
-        if value {
-            return "true"
-        }
-        else {
-            return "false"
         }
     }
     
