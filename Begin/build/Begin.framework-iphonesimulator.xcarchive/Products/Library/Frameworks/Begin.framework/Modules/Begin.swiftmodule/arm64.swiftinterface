@@ -33,6 +33,8 @@ extension Disk {
   public static func save(_ value: Foundation.Data, to directory: Begin.Disk.Directory, as path: Swift.String) throws
   public static func retrieve(_ path: Swift.String, from directory: Begin.Disk.Directory, as type: Foundation.Data.Type) throws -> Foundation.Data
 }
+public struct Logg {
+}
 public enum SwiftyJSONError : Swift.Int, Swift.Error {
   case unsupportedType
   case indexOutOfBounds
@@ -382,6 +384,10 @@ extension JSON : Swift.Codable {
   public init(from decoder: Swift.Decoder) throws
   public func encode(to encoder: Swift.Encoder) throws
 }
+public class InteractionModel {
+  public init(id: Swift.String)
+  @objc deinit
+}
 public class LocationModel : Swift.Codable {
   public init(latitude: Swift.Double, longitude: Swift.Double)
   @objc deinit
@@ -393,6 +399,10 @@ extension Disk {
   public static func append(_ value: UIKit.UIImage, to path: Swift.String, in directory: Begin.Disk.Directory) throws
   public static func append(_ value: [UIKit.UIImage], to path: Swift.String, in directory: Begin.Disk.Directory) throws
   public static func retrieve(_ path: Swift.String, from directory: Begin.Disk.Directory, as type: [UIKit.UIImage].Type) throws -> [UIKit.UIImage]
+}
+public class LabelModel {
+  public init(objectName: Swift.String)
+  @objc deinit
 }
 @available(iOS 11.0, *)
 extension Disk {
@@ -408,6 +418,10 @@ extension Disk {
   public static var availableCapacityForOpportunisticUsage: Swift.Int? {
     get
   }
+}
+public class ObjectModel {
+  public init(objectName: Swift.String)
+  @objc deinit
 }
 @_hasMissingDesignatedInitializers public class Disk {
   public enum Directory : Swift.Equatable {
@@ -425,17 +439,26 @@ extension Disk {
 }
 public let EMPTY_NUMBER: Swift.Double
 public class BeginWorker {
-  public init(url: Swift.String, appId: Swift.String, secretKey: Swift.String)
+  public init(appId: Swift.String, licenseKey: Swift.String)
   public class func shared() -> Begin.BeginWorker
-  public func updateTextFeature(key: Swift.String, value: Swift.String)
-  public func updateNumericalFeature(key: Swift.String, value: Swift.Int)
-  public func updateNumericalFeature(key: Swift.String, value: Swift.Double)
-  public func updateLocationFeature(key: Swift.String, value: Begin.LocationModel)
+  public func registerUser(userId: Swift.String)
+  public func registerObject(objectName: Swift.String, objectId: Swift.String)
+  public func updateUserTextField(key: Swift.String, value: Swift.String)
+  public func updateUserDateField(key: Swift.String, day: Swift.String, month: Swift.String, year: Swift.String)
+  public func updateUserNumericalField(key: Swift.String, value: Swift.Int)
+  public func updateUserBooleanField(key: Swift.String, value: Swift.Bool)
+  public func updateLocationField(key: Swift.String, value: Begin.LocationModel)
+  public func updateObjectTextField(objectType: Swift.String, objectId: Swift.String, key: Swift.String, value: Swift.String)
+  public func updateObjectDateField(objectType: Swift.String, objectId: Swift.String, key: Swift.String, day: Swift.String, month: Swift.String, year: Swift.String)
+  public func updateObjectNumericalField(objectType: Swift.String, objectId: Swift.String, key: Swift.String, value: Swift.Int)
+  public func updateObjectBooleanField(objectType: Swift.String, objectId: Swift.String, key: Swift.String, value: Swift.Bool)
+  public func registerInteraction(objectType: Swift.String, value: Swift.String, objectId: Swift.String)
+  public func addLabel(objectType: Swift.String, objectId: Swift.String, value: Swift.String)
   public func logTest() -> Swift.String
-  public func updateFeature(key: Swift.String, value: Any)
-  public func fetchInstructions()
-  public func fetchInstructionsAndPost()
-  public func processAndPost()
+  public func learnFromData()
+  public func predictEngagement(projectId: Swift.String, objectId: Swift.String, userId: Swift.String, success: @escaping ((Begin.JSON) -> Swift.Void), failed: @escaping ((Any) -> Swift.Void))
+  public func recommend(projectId: Swift.String, userId: Swift.String, success: @escaping ((Begin.JSON) -> Swift.Void), failed: @escaping ((Any) -> Swift.Void))
+  public func classify(projectId: Swift.String, id: Swift.String, success: @escaping ((Begin.JSON) -> Swift.Void), failed: @escaping ((Any) -> Swift.Void))
   public func inference()
   @objc deinit
 }

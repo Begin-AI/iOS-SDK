@@ -135,7 +135,7 @@ public class BeginWorker {
         }
     }
     
-    public func registerInteraction (objectType : String, objectId : String, value : String){
+    public func registerInteraction (objectType : String, value : String, objectId : String){
         if isObjectAvailable(objectType: objectType, objectId: objectId) {
             begin.updateInteractions(objectType: objectType, objectId: objectId, value: value)
         }
@@ -153,12 +153,19 @@ public class BeginWorker {
         fetchDecide(shouldPost: true)
     }
     
-    public func predictEngagement (projectId: String, objectId: String, userId: String){
+    public func predictEngagement (projectId: String, objectId: String, userId: String, success: @escaping ((JSON) -> Void), failed: @escaping ((Any) -> Void)){
         let beginApi = BeginAPI.init(appId: appId, licenseKey: licenseKey)
-        beginApi.predictEngagement(projectId: projectId, objectId: objectId, userId: userId, success:  { [self] (result) in
-            Logg.i(text: "Predict Engagement Result: \(result.result.results)")
-        }) { (message) in
-        }
+        beginApi.predictEngagement(projectId: projectId, objectId: objectId, userId: userId, success: success, failed: failed)
+    }
+    
+    public func recommend (projectId: String, userId: String, success: @escaping ((JSON) -> Void), failed: @escaping ((Any) -> Void)){
+        let beginApi = BeginAPI.init(appId: appId, licenseKey: licenseKey)
+        beginApi.recommend(projectId: projectId, userId: userId, success: success, failed: failed)
+    }
+    
+    public func classify (projectId: String, id: String, success: @escaping ((JSON) -> Void), failed: @escaping ((Any) -> Void)){
+        let beginApi = BeginAPI.init(appId: appId, licenseKey: licenseKey)
+        beginApi.classify(projectId: projectId, id: id, success: success, failed: failed)
     }
     
     func fetchDecide(shouldPost : Bool){

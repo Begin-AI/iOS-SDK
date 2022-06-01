@@ -66,6 +66,10 @@ class SliceInstruction : BaseInstruction {
             }
         }
         
+        if value < minv || value > maxv {
+            return Double(slices.count + 1)
+        }
+        
         return ERR_NUMBER
     }
     

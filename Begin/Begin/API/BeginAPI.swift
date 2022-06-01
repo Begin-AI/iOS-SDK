@@ -64,7 +64,7 @@ class BeginAPI {
         task.resume()
     }
     
-    func predictEngagement (projectId: String, objectId: String, userId: String, success: @escaping ((PEngagementModel) -> Void), failed: @escaping ((Any) -> Void)) {
+    func predictEngagement (projectId: String, objectId: String, userId: String, success: @escaping ((JSON) -> Void), failed: @escaping ((Any) -> Void)) {
         let url = URL(string: baseUrl + getPredictEngagementUrl(projectId: projectId, objectId: objectId, userId: userId))!
         let session = URLSession.shared
         var request = URLRequest(url: url)
@@ -92,7 +92,7 @@ class BeginAPI {
                     let result = response.result.results
                     Logg.i(text: "Predict Engagement Success")
                     Logg.d(text: "\(result)")
-                    success(response)
+                    success(response.result.results)
                 }
                 else {
                     Logg.i(text: "Predict Engagement Failed")
@@ -101,6 +101,94 @@ class BeginAPI {
                 }
             } catch let error {
                 Logg.i(text: "Predict Engagement Failed")
+                Logg.d(text: "\(error)")
+                failed("")
+            }
+        })
+        task.resume()
+    }
+    
+    func recommend (projectId: String, userId: String, success: @escaping ((JSON) -> Void), failed: @escaping ((Any) -> Void)) {
+        let url = URL(string: baseUrl + getRecommendUrl(projectId: projectId, userId: userId))!
+        let session = URLSession.shared
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue(appId, forHTTPHeaderField: "AppID")
+        request.addValue(licenseKey, forHTTPHeaderField: "LicenseKey")
+        Logg.i(text: "Making Recommend Request")
+        Logg.d(text: "GET Request: \(url)")
+        let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+            guard error == nil else {
+                Logg.i(text: "Recommend Failed - no response")
+                failed("")
+                return
+            }
+            guard let data = data else {
+                Logg.i(text: "Recommend Failed - no data")
+                failed("")
+                return
+            }
+            do {
+                let response = try JSONDecoder().decode(PEngagementModel.self, from: data)
+                if response.success {
+                    let result = response.result.results
+                    Logg.i(text: "Recommend Success")
+                    Logg.d(text: "\(result)")
+                    success(response.result.results)
+                }
+                else {
+                    Logg.i(text: "Recommend Failed")
+                    Logg.d(text: "\(response)")
+                    failed("")
+                }
+            } catch let error {
+                Logg.i(text: "Recommend Failed")
+                Logg.d(text: "\(error)")
+                failed("")
+            }
+        })
+        task.resume()
+    }
+    
+    func classify (projectId: String, id: String, success: @escaping ((JSON) -> Void), failed: @escaping ((Any) -> Void)) {
+        let url = URL(string: baseUrl + getClassifyUrl(projectId: projectId, id: id))!
+        let session = URLSession.shared
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue(appId, forHTTPHeaderField: "AppID")
+        request.addValue(licenseKey, forHTTPHeaderField: "LicenseKey")
+        Logg.i(text: "Making Classify Request")
+        Logg.d(text: "GET Request: \(url)")
+        let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+            guard error == nil else {
+                Logg.i(text: "Classify Failed - no response")
+                failed("")
+                return
+            }
+            guard let data = data else {
+                Logg.i(text: "Classify Failed - no data")
+                failed("")
+                return
+            }
+            do {
+                let response = try JSONDecoder().decode(PEngagementModel.self, from: data)
+                if response.success {
+                    let result = response.result.results
+                    Logg.i(text: "Classify Success")
+                    Logg.d(text: "\(result)")
+                    success(response.result.results)
+                }
+                else {
+                    Logg.i(text: "Classify Failed")
+                    Logg.d(text: "\(response)")
+                    failed("")
+                }
+            } catch let error {
+                Logg.i(text: "Classify Failed")
                 Logg.d(text: "\(error)")
                 failed("")
             }

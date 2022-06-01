@@ -171,6 +171,7 @@ class Begin {
         var userObject: [String: Any] = [:]
         userObject["labels"] = labelList
         userObject["embedding"] = userEmbedList
+        userObject["tokens"] = addTokens()
         innerobject[userId] = userObject
         embeddingObject["user"] = innerobject
     }
@@ -184,7 +185,6 @@ class Begin {
                     let object = objectMap.value
                     let beginProcessor = BeginProcessor.init(features: object)
                     let objectEmbeddingList = beginProcessor.processInstructions(instructions: model)
-                    innerobject[objkey] = objectEmbeddingList
                     var labelList : [String] = []
                     let index = containsLabels(objectName: objectModel.objectName)
                     if index != -100 {
@@ -207,6 +207,7 @@ class Begin {
                     var builtObject: [String: Any] = [:]
                     builtObject["labels"] = labelList
                     builtObject["embedding"] = objectEmbeddingList
+                    builtObject["tokens"] = addTokens()
                     innerobject[objkey] = builtObject
                 }
                 embeddingObject[objectModel.objectName] = innerobject
@@ -264,6 +265,14 @@ class Begin {
         }
         outerObject[userId] = middleObject
         embeddingObject["interactions"] = outerObject
+    }
+    
+    func addTokens () -> [String: Any] {
+        var tokenObject: [String: Any] = [:]
+        tokenObject["input_ids"] = []
+        tokenObject["attention_mask"] = []
+        tokenObject["len_"] = 0
+        return tokenObject
     }
     
     func postInstructions (finalObject: [String: Any]){

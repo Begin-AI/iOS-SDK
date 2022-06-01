@@ -13,6 +13,6 @@ struct PEngagementModel: Codable {
 
 // MARK: - Result
 struct PredictionResult: Codable {
-    let results: String
+    let results: JSON
 }
 
