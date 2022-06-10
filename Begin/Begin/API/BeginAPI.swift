@@ -196,6 +196,51 @@ class BeginAPI {
         task.resume()
     }
     
+    func fakeDetect (projectId: String, id: String, success: @escaping ((JSON) -> Void), failed: @escaping ((Any) -> Void)) {
+        let url = URL(string: baseUrl + getFakeUrl(projectId: projectId, id: id))!
+        let session = URLSession.shared
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue(appId, forHTTPHeaderField: "AppID")
+        request.addValue(licenseKey, forHTTPHeaderField: "LicenseKey")
+        Logg.i(text: "Making Fake Detect Request")
+        Logg.d(text: "GET Request: \(url)")
+        let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+            guard error == nil else {
+                Logg.i(text: "Fake Detect Failed - no response")
+                failed("")
+                return
+            }
+            guard let data = data else {
+                Logg.i(text: "Fake Detect Failed - no data")
+                failed("")
+                return
+            }
+            do {
+                Logg.d(text: "data \(data)")
+                let response = try JSONDecoder().decode(PEngagementModel.self, from: data)
+                if response.success {
+                    let result = response.result.results
+                    Logg.i(text: "Fake Detect Success")
+                    Logg.d(text: "\(result)")
+                    success(response.result.results)
+                }
+                else {
+                    Logg.i(text: "Fake Detect Failed")
+                    Logg.d(text: "\(response)")
+                    failed("")
+                }
+            } catch let error {
+                Logg.i(text: "Fake Detects Failed")
+                Logg.d(text: "\(error)")
+                failed("")
+            }
+        })
+        task.resume()
+    }
+    
     func sendInstructions (finalObject: [String: Any], success: @escaping ((Any) -> Void), failed: @escaping ((Any) -> Void)) {
         let url = URL(string: baseUrl + getEmbeddingUrl())!
         let session = URLSession.shared

@@ -11,7 +11,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         // default
-        let beginWorker = BeginWorker.init(appId: "1facc60a-6e8d-4272-adb6-9e69df734865", licenseKey: "gb_cGxo76g8EyWRfZABURt_6vhxg26h6MatmRYb6FTfSSqbXhd8TlQ_diDfOplOAMqyRGmUJv4fUNeH4aeuYadheTvvvtPRx3oVLReTVV5RIESo4vWQWi1lI6yHAd_teAixhGKp")
+//        let beginWorker = BeginWorker.init(appId: "1facc60a-6e8d-4272-adb6-9e69df734865", licenseKey: "gb_cGxo76g8EyWRfZABURt_6vhxg26h6MatmRYb6FTfSSqbXhd8TlQ_diDfOplOAMqyRGmUJv4fUNeH4aeuYadheTvvvtPRx3oVLReTVV5RIESo4vWQWi1lI6yHAd_teAixhGKp")
 //
 //        // recommend
 //        let beginWorker = BeginWorker.init(appId: "36896e56-3be5-4f2c-9280-253efa861d43", licenseKey: "gb_qHQr76TEsI0dA5Elvmeieib4qg07bCiPNncPFA7lg3nGxOGx5U4pFYFqQYx3GJZy4CTk6R-IhDUZOXyGFM3lQcvI4Cbvp-oBURRVRucxEy_ahvGgmcPL-I6B06OdF9RRAZTo")
@@ -21,6 +21,9 @@ class ViewController: UIViewController {
 //
 //        // predict
 //        let beginWorker = BeginWorker.init(appId: "36896e56-3be5-4f2c-9280-253efa861d43", licenseKey: "gb_qHQr76TEsI0dA5Elvmeieib4qg07bCiPNncPFA7lg3nGxOGx5U4pFYFqQYx3GJZy4CTk6R-IhDUZOXyGFM3lQcvI4Cbvp-oBURRVRucxEy_ahvGgmcPL-I6B06OdF9RRAZTo")
+        
+        // fake detect
+        let beginWorker = BeginWorker.init(appId: "16f79516-607c-4afe-992f-bd3ab8e91a31", licenseKey: "gb_ct-WujAplMIlaRnFW64FAIvAAYChsru9rh2xr02YL3jai-L0qIjAnnvBlrxmTO1npMGHhdS95TrO8K049DS7pS7PUR7CuNbrl-ani3EJYmOdEu5j2wbwA_2NWCpPQIwmYc0n")
         
         beginWorker.registerUser(userId: "1337")
         
@@ -112,6 +115,15 @@ class ViewController: UIViewController {
             print("Begin API Response \(message)")
         }
     }
+    
+    @IBAction func fakeDetect (){
+        BeginWorker.shared().fakeDetect(projectId: "398233e4-3553-46ed-9d33-3aecfc60e62d", userid: "491690867", success:  { [self] (result) in
+            print("Begin API Response: \(result)")
+        }) { (message) in
+            print("Begin API Response \(message)")
+        }
+    }
+    
     @IBAction func showUserInfo (){
         showMessage(msg: BeginWorker.shared().logTest())
     }

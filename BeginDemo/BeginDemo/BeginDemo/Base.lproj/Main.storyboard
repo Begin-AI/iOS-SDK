@@ -76,6 +76,18 @@
                                     <action selector="classify" destination="BYZ-38-t0r" eventType="touchUpInside" id="GPr-nQ-Veg"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="47S-va-vnI">
+                                <rect key="frame" x="15" y="359" width="384" height="40"/>
+                                <color key="backgroundColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Jlk-RN-aUY"/>
+                                </constraints>
+                                <color key="tintColor" red="0.95228832959999998" green="0.95576483010000002" blue="0.95943266149999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Fake Detect"/>
+                                <connections>
+                                    <action selector="fakeDetect" destination="BYZ-38-t0r" eventType="touchUpInside" id="9Nq-yV-vwu"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -84,7 +96,9 @@
                             <constraint firstItem="0uN-8q-sVn" firstAttribute="top" secondItem="lbK-1z-E5C" secondAttribute="bottom" constant="20" id="B8F-qN-72n"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="lbK-1z-E5C" secondAttribute="trailing" constant="15" id="Dns-H0-8Ae"/>
                             <constraint firstItem="Xep-iu-MD3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="DvF-q1-vxJ"/>
+                            <constraint firstItem="47S-va-vnI" firstAttribute="top" secondItem="wqF-Uh-8HG" secondAttribute="bottom" constant="20" id="GmS-rL-loM"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="0uN-8q-sVn" secondAttribute="trailing" constant="15" id="KIq-Nh-Spp"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="47S-va-vnI" secondAttribute="trailing" constant="15" id="NrP-VZ-QvM"/>
                             <constraint firstItem="lbK-1z-E5C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="OeC-hU-2Ym"/>
                             <constraint firstItem="Xep-iu-MD3" firstAttribute="top" secondItem="0uN-8q-sVn" secondAttribute="bottom" constant="20" id="Rs9-8y-ovX"/>
                             <constraint firstItem="wqF-Uh-8HG" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="S5g-CR-vaC"/>
@@ -95,6 +109,7 @@
                             <constraint firstItem="0uN-8q-sVn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="lHW-KP-PsW"/>
                             <constraint firstItem="lbK-1z-E5C" firstAttribute="top" secondItem="ceG-q9-u90" secondAttribute="bottom" constant="20" id="r2a-tq-SvU"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ceG-q9-u90" secondAttribute="trailing" constant="15" id="ush-Ty-fbj"/>
+                            <constraint firstItem="47S-va-vnI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="yEg-Pl-FjP"/>
                         </constraints>
                     </view>
                 </viewController>

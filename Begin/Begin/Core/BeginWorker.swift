@@ -168,6 +168,11 @@ public class BeginWorker {
         beginApi.classify(projectId: projectId, id: id, success: success, failed: failed)
     }
     
+    public func fakeDetect (projectId: String, userid: String, success: @escaping ((JSON) -> Void), failed: @escaping ((Any) -> Void)){
+        let beginApi = BeginAPI.init(appId: appId, licenseKey: licenseKey)
+        beginApi.fakeDetect(projectId: projectId, id: userid, success: success, failed: failed)
+    }
+    
     func fetchDecide(shouldPost : Bool){
         let beginApi = BeginAPI.init(appId: appId, licenseKey: licenseKey)
         beginApi.fetchInstructions(success:  { [self] (iparser) in

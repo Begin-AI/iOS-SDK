@@ -23,6 +23,10 @@ func getClassifyUrl (projectId: String, id: String) -> String {
     return projectId + "/classify/" + id + "/"
 }
 
+func getFakeUrl (projectId: String, id: String) -> String {
+    return projectId + "/detect_fake/" + id + "/"
+}
+
 func getEmbeddingUrl () -> String {
     return "embeddings/" + getSafeStringPreference(key: INSTRUCTION_ID) + "/embedding"
 }
