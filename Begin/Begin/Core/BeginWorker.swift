@@ -160,7 +160,12 @@ public class BeginWorker {
     
     public func recommend (projectId: String, userId: String, success: @escaping ((JSON) -> Void), failed: @escaping ((Any) -> Void)){
         let beginApi = BeginAPI.init(appId: appId, licenseKey: licenseKey)
-        beginApi.recommend(projectId: projectId, userId: userId, success: success, failed: failed)
+        beginApi.recommend(projectId: projectId, userId: userId, limit: 20, page: 1, success: success, failed: failed)
+    }
+    
+    public func recommend (projectId: String, userId: String, limit : Int, page : Int, success: @escaping ((JSON) -> Void), failed: @escaping ((Any) -> Void)){
+        let beginApi = BeginAPI.init(appId: appId, licenseKey: licenseKey)
+        beginApi.recommend(projectId: projectId, userId: userId, limit: limit, page: page, success: success, failed: failed)
     }
     
     public func classify (projectId: String, id: String, success: @escaping ((JSON) -> Void), failed: @escaping ((Any) -> Void)){

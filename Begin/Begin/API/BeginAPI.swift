@@ -108,8 +108,8 @@ class BeginAPI {
         task.resume()
     }
     
-    func recommend (projectId: String, userId: String, success: @escaping ((JSON) -> Void), failed: @escaping ((Any) -> Void)) {
-        let url = URL(string: baseUrl + getRecommendUrl(projectId: projectId, userId: userId))!
+    func recommend (projectId: String, userId: String, limit : Int, page : Int, success: @escaping ((JSON) -> Void), failed: @escaping ((Any) -> Void)) {
+        let url = URL(string: baseUrl + getRecommendUrl(projectId: projectId, userId: userId, limit: limit, page: page))!
         let session = URLSession.shared
         var request = URLRequest(url: url)
         request.httpMethod = "GET"

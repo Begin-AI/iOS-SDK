@@ -15,8 +15,8 @@ func getPredictEngagementUrl (projectId: String, objectId: String, userId: Strin
     return projectId + "/predict_engagement/" + userId + "/" + objectId
 }
 
-func getRecommendUrl (projectId: String, userId: String) -> String {
-    return projectId + "/recommend/" + userId + "/"
+func getRecommendUrl (projectId: String, userId: String, limit : Int, page : Int) -> String {
+    return projectId + "/recommend/" + userId + "?limit=\(limit)&page=\(page)"
 }
 
 func getClassifyUrl (projectId: String, id: String) -> String {

@@ -59,13 +59,13 @@
                                     <constraint firstAttribute="height" constant="40" id="u8J-XH-ARd"/>
                                 </constraints>
                                 <color key="tintColor" red="0.95228832959999998" green="0.95576483010000002" blue="0.95943266149999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Recommend"/>
+                                <state key="normal" title="Recommend Default"/>
                                 <connections>
                                     <action selector="recommend" destination="BYZ-38-t0r" eventType="touchUpInside" id="xIQ-V4-IrX"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wqF-Uh-8HG">
-                                <rect key="frame" x="15" y="299" width="384" height="40"/>
+                                <rect key="frame" x="15" y="359" width="384" height="40"/>
                                 <color key="backgroundColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Na4-d7-zej"/>
@@ -77,7 +77,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="47S-va-vnI">
-                                <rect key="frame" x="15" y="359" width="384" height="40"/>
+                                <rect key="frame" x="15" y="419" width="384" height="40"/>
                                 <color key="backgroundColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Jlk-RN-aUY"/>
@@ -88,10 +88,23 @@
                                     <action selector="fakeDetect" destination="BYZ-38-t0r" eventType="touchUpInside" id="9Nq-yV-vwu"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dcY-dc-1c3">
+                                <rect key="frame" x="15" y="299" width="384" height="40"/>
+                                <color key="backgroundColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Jsd-FF-6un"/>
+                                </constraints>
+                                <color key="tintColor" red="0.95228832959999998" green="0.95576483010000002" blue="0.95943266149999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Recommend Page Limit"/>
+                                <connections>
+                                    <action selector="recommendLimit" destination="BYZ-38-t0r" eventType="touchUpInside" id="p9F-2k-ERi"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="dcY-dc-1c3" firstAttribute="top" secondItem="Xep-iu-MD3" secondAttribute="bottom" constant="20" id="0m0-C4-Hku"/>
                             <constraint firstItem="ceG-q9-u90" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="8dM-AH-fTN"/>
                             <constraint firstItem="0uN-8q-sVn" firstAttribute="top" secondItem="lbK-1z-E5C" secondAttribute="bottom" constant="20" id="B8F-qN-72n"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="lbK-1z-E5C" secondAttribute="trailing" constant="15" id="Dns-H0-8Ae"/>
@@ -102,12 +115,14 @@
                             <constraint firstItem="lbK-1z-E5C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="OeC-hU-2Ym"/>
                             <constraint firstItem="Xep-iu-MD3" firstAttribute="top" secondItem="0uN-8q-sVn" secondAttribute="bottom" constant="20" id="Rs9-8y-ovX"/>
                             <constraint firstItem="wqF-Uh-8HG" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="S5g-CR-vaC"/>
+                            <constraint firstItem="wqF-Uh-8HG" firstAttribute="top" secondItem="dcY-dc-1c3" secondAttribute="bottom" constant="20" id="Uwh-GA-cth"/>
                             <constraint firstItem="ceG-q9-u90" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="15" id="Yba-G2-Ogj"/>
-                            <constraint firstItem="wqF-Uh-8HG" firstAttribute="top" secondItem="Xep-iu-MD3" secondAttribute="bottom" constant="20" id="baU-gR-cZ9"/>
+                            <constraint firstItem="dcY-dc-1c3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="Zjg-hc-hDZ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Xep-iu-MD3" secondAttribute="trailing" constant="15" id="dWF-Hc-yhN"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wqF-Uh-8HG" secondAttribute="trailing" constant="15" id="hMz-aW-omT"/>
                             <constraint firstItem="0uN-8q-sVn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="lHW-KP-PsW"/>
                             <constraint firstItem="lbK-1z-E5C" firstAttribute="top" secondItem="ceG-q9-u90" secondAttribute="bottom" constant="20" id="r2a-tq-SvU"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="dcY-dc-1c3" secondAttribute="trailing" constant="15" id="rx1-fX-dnq"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ceG-q9-u90" secondAttribute="trailing" constant="15" id="ush-Ty-fbj"/>
                             <constraint firstItem="47S-va-vnI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="yEg-Pl-FjP"/>
                         </constraints>
