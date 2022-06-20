@@ -108,6 +108,14 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func recommendLimit (){
+        BeginWorker.shared().recommend(projectId: "13601f88-a80d-4e1c-b335-298b5af845c9", userId: "22", limit: 5, page: 1, success:  { [self] (result) in
+            print("Begin API Response: \(result)")
+        }) { (message) in
+            print("Begin API Response \(message)")
+        }
+    }
+    
     @IBAction func classify (){
         BeginWorker.shared().classify(projectId: "5f534c16-158c-4041-89ce-ce3acc5de251", id: "30", success:  { [self] (result) in
             print("Begin API Response: \(result)")
