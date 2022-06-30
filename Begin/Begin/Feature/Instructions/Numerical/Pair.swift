@@ -5,10 +5,10 @@
 import Foundation
 
 class Pair {
-    var first = 0
-    var second = 0
+    var first : Double = 0
+    var second : Double = 0
     
-    init(first : Int, second : Int) {
+    init(first : Double, second : Double) {
         self.first = first
         self.second = second
     }

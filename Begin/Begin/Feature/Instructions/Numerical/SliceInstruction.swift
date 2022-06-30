@@ -11,7 +11,6 @@ class SliceInstruction : BaseInstruction {
     var minv = 0
     var maxv = 0
     var num_slicers = 0
-    var slices : [Pair] = []
     var newslices : [Pair] = []
     
     init (instruction : InstructionModel) {
@@ -30,52 +29,58 @@ class SliceInstruction : BaseInstruction {
                 return EMPTY_NUMBER
             }
             else {
-                return generateBandsForNumericalFeature(value: Int(val))
+                return generateBandsForNumericalFeature(value: val)
             }
         }
         else if let val = features[instruction.fID.unwrappedValue] as? Int {
-            return generateBandsForNumericalFeature(value: Int(val))
+            return generateBandsForNumericalFeature(value: Double(val))
         }
         else {
             return EMPTY_NUMBER
         }
     }
     
-    func generateBandsForNumericalFeature (value : Int) -> Double {
-        slices.removeAll()
+    func generateBandsForNumericalFeature (value : Double) -> Double {
         newslices.removeAll()
+        let innerRange = maxv - minv
+        let binSize : Double = Double(innerRange) / Double(num_slicers)
+        var start : Double = Double(minv)
+        var end : Double = 0
         
-        while slices.count < num_slicers {
-            if slices.count == 0 {
-                slice(min: minv, max: maxv)
-                slices.append(contentsOf: newslices)
+        for i in 0..<num_slicers {
+            let defaultEnd : Double = start + binSize
+            end = round(number: defaultEnd)
+            if i == 0 {
+                start -= 0.1
             }
-            else {
-                newslices.removeAll()
-                for s in 0..<slices.count {
-                    slice(min: slices[s].first, max: slices[s].second)
-                }
-                slices.removeAll()
-                slices.append(contentsOf: newslices)
+            if i == num_slicers - 1 {
+                end += 0.1
             }
+            slice(min: start, max: end)
+            start = end
         }
         
-        for j in 0..<slices.count {
-            if slices[j].first <= value && slices[j].second >= value {
+        for j in 0..<newslices.count {
+            if newslices[j].first <= value && newslices[j].second >= value {
                 return Double(j+1)
             }
         }
         
-        if value < minv || value > maxv {
-            return Double(slices.count + 1)
+        if value < Double(minv) || value > Double(maxv) {
+            return Double(newslices.count + 1)
         }
         
         return ERR_NUMBER
     }
     
-    func slice (min : Int, max : Int){
-        let midNumber : Int = (min + max) / 2
-        newslices.append(Pair.init(first: min, second: midNumber))
-        newslices.append(Pair.init(first: midNumber, second: max))
+    func slice (min : Double, max : Double){
+        newslices.append(Pair.init(first: min, second: max))
+    }
+    
+    func round (number : Double) -> Double {
+        let scale: Int16 = 4
+        let behavior = NSDecimalNumberHandler(roundingMode: .plain, scale: scale, raiseOnExactness: false, raiseOnOverflow: false, raiseOnUnderflow: false, raiseOnDivideByZero: true)
+        let roundedValue = NSDecimalNumber(value: number).rounding(accordingToBehavior: behavior)
+        return roundedValue.doubleValue
     }
 }
