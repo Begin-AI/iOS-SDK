@@ -124,11 +124,12 @@ public class BeginWorker {
         }
     }
     
-    public func updateObjectNumericalField (objectType : String, objectId : String, key : String, value : Int){
+    public func updateObjectNumericalField (objectType : String, objectId : String, key : String, value : Double){
         if isObjectAvailable(objectType: objectType, objectId: objectId) {
             begin.updateObjectFeatures(objectType: objectType, objectId: objectId, key: key, value: value)
         }
     }
+    
     public func updateObjectBooleanField (objectType : String, objectId : String, key : String, value : Bool){
         if isObjectAvailable(objectType: objectType, objectId: objectId) {
             begin.updateObjectFeatures(objectType: objectType, objectId: objectId, key: key, value: value)

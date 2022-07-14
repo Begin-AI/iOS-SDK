@@ -21,74 +21,78 @@ class ViewController: UIViewController {
 //
 //        // predict
 //        let beginWorker = BeginWorker.init(appId: "36896e56-3be5-4f2c-9280-253efa861d43", licenseKey: "gb_qHQr76TEsI0dA5Elvmeieib4qg07bCiPNncPFA7lg3nGxOGx5U4pFYFqQYx3GJZy4CTk6R-IhDUZOXyGFM3lQcvI4Cbvp-oBURRVRucxEy_ahvGgmcPL-I6B06OdF9RRAZTo")
-        
-        // fake detect
-        let beginWorker = BeginWorker.init(appId: "16f79516-607c-4afe-992f-bd3ab8e91a31", licenseKey: "gb_ct-WujAplMIlaRnFW64FAIvAAYChsru9rh2xr02YL3jai-L0qIjAnnvBlrxmTO1npMGHhdS95TrO8K049DS7pS7PUR7CuNbrl-ani3EJYmOdEu5j2wbwA_2NWCpPQIwmYc0n")
+//
+//        // fake detect
+//        let beginWorker = BeginWorker.init(appId: "16f79516-607c-4afe-992f-bd3ab8e91a31", licenseKey: "gb_ct-WujAplMIlaRnFW64FAIvAAYChsru9rh2xr02YL3jai-L0qIjAnnvBlrxmTO1npMGHhdS95TrO8K049DS7pS7PUR7CuNbrl-ani3EJYmOdEu5j2wbwA_2NWCpPQIwmYc0n")
+        let beginWorker = BeginWorker.init(appId: "b6559b20-4b53-4be2-8821-c372a036387f", licenseKey: "gb_ABGrgMNrMnHKgyyfdGLktwV_4pD8f6xvs49zVDCFy448MmyzvRbl5N4kgwUeOF9jPG31Hmd2waKepAT4pJq-ngAj-F88Q4W2Iij6EYFNiNIrrrTg41wu28mbmDoxCVyXp96g")
         
         beginWorker.registerUser(userId: "1337")
-        
-        beginWorker.updateUserDateField(key: "date_of_birth", day: "17", month: "04", year: "1987")
-        beginWorker.updateUserDateField(key: "joining_date", day: "17", month: "04", year: "2000")
-        beginWorker.updateLocationField(key: "location", value: LocationModel.init(latitude: 33.123, longitude: 32.110))
-        beginWorker.updateUserTextField(key: "user_category_field", value: "romance")
-        beginWorker.updateUserNumericalField(key: "user_number_field", value: 7)
-        beginWorker.updateUserBooleanField(key: "user_boolean_field", value: true)
-                
-        beginWorker.registerObject(objectName: "book", objectId: "1")
-        beginWorker.registerObject(objectName: "book", objectId: "2")
-        beginWorker.registerObject(objectName: "book_not_existing", objectId: "2")
-        
-        // book 1
-        beginWorker.updateObjectTextField(objectType: "book", objectId: "1", key: "is_ebook", value: "true")
-        beginWorker.updateObjectTextField(objectType: "book", objectId: "1", key: "publication_month", value: "7")
-        beginWorker.updateObjectTextField(objectType: "book", objectId: "1", key: "publication_year", value: "1927")
-        beginWorker.updateObjectTextField(objectType: "book", objectId: "1", key: "genre_1", value: "fiction")
-        beginWorker.updateObjectTextField(objectType: "book", objectId: "1", key: "genre_2", value: "fantasy_paranormal")
-        beginWorker.updateObjectTextField(objectType: "book", objectId: "1", key: "genre_3", value: "romance")
-
-        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "1", key: "text_reviews_count", value: 17)
-        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "1", key: "average_rating", value: 3)
-        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "1", key: "num_pages", value: 15)
-        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "1", key: "ratings_count", value: 33)
-        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "1", key: "avg_author_rating", value: 1)
-        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "1", key: "avg_author_reviews_count", value: 100)
-        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "1", key: "sum_all_author_ratings", value: 5)
-        
-        // book 2
-        beginWorker.updateObjectTextField(objectType: "book", objectId: "2", key: "is_ebook", value: "false")
-        beginWorker.updateObjectTextField(objectType: "book", objectId: "2", key: "publication_month", value: "3")
-        beginWorker.updateObjectTextField(objectType: "book", objectId: "2", key: "publication_year", value: "1955")
-        beginWorker.updateObjectTextField(objectType: "book", objectId: "2", key: "genre_1", value: "children")
-        beginWorker.updateObjectTextField(objectType: "book", objectId: "2", key: "genre_2", value: "comics_graphic")
-        beginWorker.updateObjectTextField(objectType: "book", objectId: "2", key: "genre_3", value: "poetry")
-        
-        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "2", key: "text_reviews_count", value: 11)
-        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "2", key: "average_rating", value: 7)
-        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "2", key: "num_pages", value: 3)
-        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "2", key: "ratings_count", value: 41)
-        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "2", key: "avg_author_rating", value: 4)
-        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "2", key: "avg_author_reviews_count", value: 37)
-        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "2", key: "sum_all_author_ratings", value: 3)
-        
-        // book that doesn't exist
-        beginWorker.updateObjectTextField(objectType: "book_not_existing", objectId: "2", key: "location", value: "Japan")
-        beginWorker.updateObjectTextField(objectType: "book_not_existing", objectId: "3", key: "location", value: "Japan")
-
-        // interactions
-        beginWorker.registerInteraction(objectType: "book", value: "rated_1", objectId: "1")
-        beginWorker.registerInteraction(objectType: "book", value: "rated_5", objectId: "1")
-        beginWorker.registerInteraction(objectType: "book2", value: "is_reviewed", objectId: "1")
-        
-        // labels
-        beginWorker.addLabel(objectType: "book", objectId: "1", value: "some")
-        beginWorker.addLabel(objectType: "book", objectId: "1", value: "random")
-        beginWorker.addLabel(objectType: "book", objectId: "2", value: "label")
-        beginWorker.addLabel(objectType: "book", objectId: "2", value: "hello")
-        
-        beginWorker.addLabel(objectType: "user", objectId: "1337", value: "fake")
-        beginWorker.addLabel(objectType: "user", objectId: "1337", value: "hello")
-        
-        beginWorker.addLabel(objectType: "book_not_existing", objectId: "111", value: "some")
+        beginWorker.registerObject(objectName: "home", objectId: "10")
+        beginWorker.updateObjectNumericalField(objectType: "home", objectId: "10", key: "review_scores_checkin", value: 4.5)
+        beginWorker.updateObjectNumericalField(objectType: "home", objectId: "10", key: "host_acceptance_rate", value: 70)
+        beginWorker.updateObjectNumericalField(objectType: "home", objectId: "10", key: "host_response_rate", value: 30)
+//        beginWorker.updateUserDateField(key: "date_of_birth", day: "17", month: "04", year: "1987")
+//        beginWorker.updateUserDateField(key: "joining_date", day: "17", month: "04", year: "2000")
+//        beginWorker.updateLocationField(key: "location", value: LocationModel.init(latitude: 33.123, longitude: 32.110))
+//        beginWorker.updateUserTextField(key: "user_category_field", value: "romance")
+//        beginWorker.updateUserNumericalField(key: "user_number_field", value: 7)
+//        beginWorker.updateUserBooleanField(key: "user_boolean_field", value: true)
+//
+//        beginWorker.registerObject(objectName: "book", objectId: "1")
+//        beginWorker.registerObject(objectName: "book", objectId: "2")
+//        beginWorker.registerObject(objectName: "book_not_existing", objectId: "2")
+//
+//        // book 1
+//        beginWorker.updateObjectTextField(objectType: "book", objectId: "1", key: "is_ebook", value: "true")
+//        beginWorker.updateObjectTextField(objectType: "book", objectId: "1", key: "publication_month", value: "7")
+//        beginWorker.updateObjectTextField(objectType: "book", objectId: "1", key: "publication_year", value: "1927")
+//        beginWorker.updateObjectTextField(objectType: "book", objectId: "1", key: "genre_1", value: "fiction")
+//        beginWorker.updateObjectTextField(objectType: "book", objectId: "1", key: "genre_2", value: "fantasy_paranormal")
+//        beginWorker.updateObjectTextField(objectType: "book", objectId: "1", key: "genre_3", value: "romance")
+//
+//        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "1", key: "text_reviews_count", value: 17)
+//        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "1", key: "average_rating", value: 3)
+//        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "1", key: "num_pages", value: 15)
+//        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "1", key: "ratings_count", value: 33)
+//        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "1", key: "avg_author_rating", value: 1)
+//        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "1", key: "avg_author_reviews_count", value: 100)
+//        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "1", key: "sum_all_author_ratings", value: 5)
+//
+//        // book 2
+//        beginWorker.updateObjectTextField(objectType: "book", objectId: "2", key: "is_ebook", value: "false")
+//        beginWorker.updateObjectTextField(objectType: "book", objectId: "2", key: "publication_month", value: "3")
+//        beginWorker.updateObjectTextField(objectType: "book", objectId: "2", key: "publication_year", value: "1955")
+//        beginWorker.updateObjectTextField(objectType: "book", objectId: "2", key: "genre_1", value: "children")
+//        beginWorker.updateObjectTextField(objectType: "book", objectId: "2", key: "genre_2", value: "comics_graphic")
+//        beginWorker.updateObjectTextField(objectType: "book", objectId: "2", key: "genre_3", value: "poetry")
+//
+//        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "2", key: "text_reviews_count", value: 11)
+//        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "2", key: "average_rating", value: 7)
+//        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "2", key: "num_pages", value: 3)
+//        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "2", key: "ratings_count", value: 41)
+//        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "2", key: "avg_author_rating", value: 4)
+//        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "2", key: "avg_author_reviews_count", value: 37)
+//        beginWorker.updateObjectNumericalField(objectType: "book", objectId: "2", key: "sum_all_author_ratings", value: 3)
+//
+//        // book that doesn't exist
+//        beginWorker.updateObjectTextField(objectType: "book_not_existing", objectId: "2", key: "location", value: "Japan")
+//        beginWorker.updateObjectTextField(objectType: "book_not_existing", objectId: "3", key: "location", value: "Japan")
+//
+//        // interactions
+//        beginWorker.registerInteraction(objectType: "book", value: "rated_1", objectId: "1")
+//        beginWorker.registerInteraction(objectType: "book", value: "rated_5", objectId: "1")
+//        beginWorker.registerInteraction(objectType: "book2", value: "is_reviewed", objectId: "1")
+//
+//        // labels
+//        beginWorker.addLabel(objectType: "book", objectId: "1", value: "some")
+//        beginWorker.addLabel(objectType: "book", objectId: "1", value: "random")
+//        beginWorker.addLabel(objectType: "book", objectId: "2", value: "label")
+//        beginWorker.addLabel(objectType: "book", objectId: "2", value: "hello")
+//
+//        beginWorker.addLabel(objectType: "user", objectId: "1337", value: "fake")
+//        beginWorker.addLabel(objectType: "user", objectId: "1337", value: "hello")
+//
+//        beginWorker.addLabel(objectType: "book_not_existing", objectId: "111", value: "some")
 
     }
     
